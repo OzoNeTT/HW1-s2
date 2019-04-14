@@ -1,3 +1,0 @@
-ShoeStock{OOOjopa;Moscow;120;krosi=45/12,48/11;tufli=44/21,39/12}
-ShoeStock{OOOjocpa;Moscow;120;krosi=45/12,48/11;tufli=44/21,39/12}
-WearStock{OOOjocccpa;Moscow;120;krosi=45/12/33,48/11/4;tufli=44/21/32,39/12/6}
