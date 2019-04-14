@@ -215,22 +215,7 @@ void starter()
 
 int main()
 {
-	//string res = a->toString();
-	//
-	//ShoeStock* b = ShoeStock::fromString(res);
-	//cout << *b << endl;
-	//
-	//cout << res << endl;*/
-
-	//DataBase db("test.txt");
-	////db.save(a);
-	//Stock* res = db.search("ннн HrenInvestLTD1");
-	//if (res != nullptr)
-	//	cout << res->toString();
-	//else
-	//	cout << "Not Found!" << endl;
 	starter();
-
 
 	system("Pause");
 	return 0;
