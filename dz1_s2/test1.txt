@@ -1,0 +1,2 @@
+ShoeStock{OOOjopa;Moscow;120;krosi=45/12,48/11;tufli=44/21,39/12}
+WearStock{OOOdolbaeb;Moscow;123;Kurtki=129/80/22,131/78/20,140/90/33}
