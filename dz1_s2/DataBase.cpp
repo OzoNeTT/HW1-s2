@@ -1,27 +1,27 @@
 #include "main.h"
 
-DataBase::DataBase(string name)
+DataBase::DataBase(std::string name)
 {
 	this->name = name;
 }
 
 void DataBase::save() {
-	ofstream f2(this->name, ios::app);
+	std::ofstream f2(this->name, std::ios::app);
 	f2 << "";
 	f2.close();
 }
 
 void DataBase::save(Stock* stock) {
-	ofstream f2(this->name, ios::app);
+	std::ofstream f2(this->name, std::ios::app);
 	f2 << stock->toString() + "\r\n";
 	f2.close();
 }
 
-vector<Stock*> DataBase::getData()
+std::vector<Stock*> DataBase::getData()
 {
-	vector<Stock*> stocks;
-	ifstream f(this->name);
-	string str;
+	std::vector<Stock*> stocks;
+	std::ifstream f(this->name);
+	std::string str;
 
 	while (getline(f, str))
 	{
@@ -36,10 +36,10 @@ vector<Stock*> DataBase::getData()
 	return stocks;
 }
 
-vector<Stock*> DataBase::search(string stockName)
+std::vector<Stock*> DataBase::search(std::string stockName)
 {
-	vector<Stock*> res;
-	vector<Stock*> v = this->getData();
+	std::vector<Stock*> res;
+	std::vector<Stock*> v = this->getData();
 	for (int i = 0; i < v.size(); i++) {
 		if (v[i]->getName() == stockName)
 			res.push_back(v[i]);
@@ -51,7 +51,7 @@ vector<Stock*> DataBase::search(string stockName)
 size_t DataBase::countElements()
 {
 	size_t result = 0;
-	vector<Stock*> v = this->getData();
+	std::vector<Stock*> v = this->getData();
 	for (auto it : v) {
 		result += it->amount();
 	}

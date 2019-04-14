@@ -1,6 +1,6 @@
 #include "main.h"
 
-void WearStock::addWears(vector<string> names, vector<vector<StockWearValue>> sizes)
+void WearStock::addWears(std::vector<std::string> names, std::vector<std::vector<StockWearValue>> sizes)
 {
 	for (int i = 0; i < names.size(); i++)
 	{
@@ -8,7 +8,7 @@ void WearStock::addWears(vector<string> names, vector<vector<StockWearValue>> si
 	}
 }
 
-bool WearStock::addwear(string name, vector<StockWearValue> sizes)
+bool WearStock::addwear(std::string name, std::vector<StockWearValue> sizes)
 {
 	this->products[name] = sizes;
 	if (this->amount() > this->size) {
@@ -18,9 +18,9 @@ bool WearStock::addwear(string name, vector<StockWearValue> sizes)
 	return true;
 }
 
-void WearStock::setCount(string name, StockWearValue value)
+void WearStock::setCount(std::string name, StockWearValue value)
 {
-	vector<StockWearValue> j = this->products[name];
+	std::vector<StockWearValue> j = this->products[name];
 	for (int i = 0; i < j.size(); i++)
 	{
 		if (j[i] == value)
@@ -33,10 +33,10 @@ int WearStock::sizeQty()
 	return 0;
 }
 
-string WearStock::toString()
+std::string WearStock::toString()
 {
-	string result = "WearStock{" + name + ";" + city + ";" + to_string(size);
-	for (map<string, vector<WearStock::StockWearValue>>::iterator i = products.begin(); i != products.end(); i++)
+	std::string result = "WearStock{" + name + ";" + city + ";" + std::to_string(size);
+	for (std::map<std::string, std::vector<WearStock::StockWearValue>>::iterator i = products.begin(); i != products.end(); i++)
 	{
 		result += ";" + i->first + "=";
 		for (int j = 0; j < i->second.size(); j++)
@@ -61,16 +61,16 @@ size_t WearStock::amount()
 	return result;
 }
 
-WearStock* WearStock::fromString(string data)
+WearStock* WearStock::fromString(std::string data)
 {
-	vector<string> d1 = split(data, ";");
+	std::vector<std::string> d1 = split(data, ";");
 	WearStock* w = new WearStock(ReplaceAll(d1[0], "WearStock{", ""), d1[1], atoi(d1[2].c_str()));
 	for (int i = 3; i < d1.size(); i++) {
-		vector<string> d2 = split(d1[i], "=");
-		vector<WearStock::StockWearValue> sizes;
-		vector<string> d3 = split(d2[1], ",");
+		std::vector<std::string> d2 = split(d1[i], "=");
+		std::vector<WearStock::StockWearValue> sizes;
+		std::vector<std::string> d3 = split(d2[1], ",");
 		for (int j = 0; j < d3.size(); j++) {
-			vector<string> d4 = split(d3[j], "/");
+			std::vector<std::string> d4 = split(d3[j], "/");
 			sizes.push_back(WearStock::StockWearValue(atoi(d4[0].c_str()), atoi(d4[1].c_str()), atoi(d4[2].c_str())));
 		}
 		w->addwear(d2[0], sizes);
@@ -78,17 +78,17 @@ WearStock* WearStock::fromString(string data)
 	return w;
 }
 
-ostream & operator<<(ostream &out, WearStock &stock)
+std::ostream & operator<<(std::ostream &out, WearStock &stock)
 {
-	out << "Name: " << stock.name << ". City: " << stock.city << ". Size: " << stock.size << endl << "Clothers: " << endl;
-	for (map<string, vector<WearStock::StockWearValue>>::iterator i = stock.products.begin(); i != stock.products.end(); i++)
+	out << "Name: " << stock.name << ". City: " << stock.city << ". Size: " << stock.size << std::endl << "Clothers: " << std::endl;
+	for (std::map<std::string, std::vector<WearStock::StockWearValue>>::iterator i = stock.products.begin(); i != stock.products.end(); i++)
 	{
 		out << i->first << ": ";
 		for (int j = 0; j < i->second.size(); j++)
 		{
 			out << i->second[j] << " ";
 		}
-		out << endl;
+		out << std::endl;
 	}
 	return out;
 }

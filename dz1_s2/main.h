@@ -10,28 +10,28 @@
 #include <filesystem>
 #include <iterator>
 #include <cstdio>    
-using namespace std;
+
 namespace fs = std::filesystem;
 
-vector<string> split(string s, string delimiter);
-string ReplaceAll(string str, const string& from, const string& to);
+std::vector<std::string> split(std::string s, std::string delimiter);
+std::string ReplaceAll(std::string str, const std::string& from, const std::string& to);
 
 class Stock
 {
 protected:
-	string name;
-	string city;
+	std::string name;
+	std::string city;
 	int size;
 
 public:
-	Stock(string name, string city, int size)
+	Stock(std::string name, std::string city, int size)
 	{
 		 this->name=name;
 		 this->city=city;
 		 this->size=size;
 	}
 
-	string getName() {
+	std::string getName() {
 		return this->name;
 	}
 
@@ -40,7 +40,7 @@ public:
 		return this->size;
 	}
 
-	virtual string toString() = NULL{}
+	virtual std::string toString() = NULL{}
 
 	virtual size_t amount() = 0;
 };
@@ -76,13 +76,13 @@ public:
 		{
 			return this->height == b.height && this->size == b.size;
 		}
-		friend ostream& operator<< (ostream &out, StockWearValue &value)
+		friend std::ostream& operator<< (std::ostream &out, StockWearValue &value)
 		{
 			out << "{Size: " << value.size << "; Height: " << value.height << "; Count: " << value.count << "}";
 			return out;
 		}
-		virtual string toString() {
-			return to_string(this->size) + "/" + to_string(this->height) + "/" + to_string(this->count);
+		virtual std::string toString() {
+			return std::to_string(this->size) + "/" + std::to_string(this->height) + "/" + std::to_string(this->count);
 		}
 		int getCount()
 		{
@@ -90,17 +90,17 @@ public:
 		}
 
 	};
-	WearStock(string name, string city, int size) : Stock(name, city, size){}
-	void addWears(vector<string>, vector<vector<StockWearValue>> sizes);
-	bool addwear(string, vector<StockWearValue>);
-	void setCount(string, StockWearValue);
-	friend ostream& operator<< (ostream &, WearStock &);
+	WearStock(std::string name, std::string city, int size) : Stock(name, city, size){}
+	void addWears(std::vector<std::string>, std::vector<std::vector<StockWearValue>> sizes);
+	bool addwear(std::string, std::vector<StockWearValue>);
+	void setCount(std::string, StockWearValue);
+	friend std::ostream& operator<< (std::ostream &, WearStock &);
 	int sizeQty();
-	string toString();
+	std::string toString();
 	size_t amount() override;
-	static WearStock* fromString(string data);
+	static WearStock* fromString(std::string data);
 private:
-	map<string, vector<StockWearValue>> products;
+	std::map<std::string, std::vector<StockWearValue>> products;
 };
 
 class ShoeStock : public Stock
@@ -129,35 +129,35 @@ public:
 		{
 			return this->size == b.size;
 		}
-		friend ostream& operator<< (ostream &out, StockShoeValue &value)
+		friend std::ostream& operator<< (std::ostream &out, StockShoeValue &value)
 		{
 			out << "{Size: " << value.size << "; Count: " << value.count << "}";
 			return out;
 		}
-		virtual string toString() {
-			return to_string(this->size) + "/" + to_string(this->count);
+		virtual std::string toString() {
+			return std::to_string(this->size) + "/" + std::to_string(this->count);
 		}
 	};
-	ShoeStock(string name, string city, int size) : Stock(name, city, size) {}
-	void addWears(vector<string>, vector<vector<StockShoeValue>> sizes);
-	bool addwear(string, vector<StockShoeValue>);
-	void setCount(string, StockShoeValue);
-	friend ostream& operator<< (ostream &, ShoeStock &);
+	ShoeStock(std::string name, std::string city, int size) : Stock(name, city, size) {}
+	void addWears(std::vector<std::string>, std::vector<std::vector<StockShoeValue>> sizes);
+	bool addwear(std::string, std::vector<StockShoeValue>);
+	void setCount(std::string, StockShoeValue);
+	friend std::ostream& operator<< (std::ostream &, ShoeStock &);
 	int sizeQty();
-	string toString();
+	std::string toString();
 	size_t amount() override;
-	static ShoeStock* fromString(string data);
+	static ShoeStock* fromString(std::string data);
 private:
-	map<string, vector<StockShoeValue>> products;
+	std::map<std::string, std::vector<StockShoeValue>> products;
 };
 
 class DataBase {
-	string name;
+	std::string name;
 public:
-	DataBase(string);
+	DataBase(std::string);
 	void save();
 	void save(Stock*);
-	vector<Stock*> getData();
-	vector<Stock*> search(string stockName);
+	std::vector<Stock*> getData();
+	std::vector<Stock*> search(std::string stockName);
 	size_t countElements();
 };

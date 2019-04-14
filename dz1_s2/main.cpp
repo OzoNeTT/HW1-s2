@@ -1,11 +1,9 @@
 #include "main.h"
-using namespace std;
 
-
-vector<string> &split(const string &s, char delim, vector<string> &elems)
+std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems)
 {
-	stringstream ss(s);
-	string item;
+	std::stringstream ss(s);
+	std::string item;
 	while (getline(ss, item, delim))
 	{
 		elems.push_back(item);
@@ -13,19 +11,19 @@ vector<string> &split(const string &s, char delim, vector<string> &elems)
 	return elems;
 }
 
-vector<string> split(const string &s, char delim)
+std::vector<std::string> split(const std::string &s, char delim)
 {
-	vector<string> elems;
+	std::vector<std::string> elems;
 	split(s, delim, elems);
 	return elems;
 }
 
-vector<string> split(string s, string delimiter) {
+std::vector<std::string> split(std::string s, std::string delimiter) {
 	size_t pos_start = 0, pos_end, delim_len = delimiter.length();
-	string token;
-	vector<string> res;
+	std::string token;
+	std::vector<std::string> res;
 
-	while ((pos_end = s.find(delimiter, pos_start)) != string::npos) {
+	while ((pos_end = s.find(delimiter, pos_start)) != std::string::npos) {
 		token = s.substr(pos_start, pos_end - pos_start);
 		pos_start = pos_end + delim_len;
 		res.push_back(token);
@@ -35,7 +33,7 @@ vector<string> split(string s, string delimiter) {
 	return res;
 }
 
-string ReplaceAll(string str, const string& from, const string& to) {
+std::string ReplaceAll(std::string str, const std::string& from, const std::string& to) {
 	size_t start_pos = 0;
 	while ((start_pos = str.find(from, start_pos)) != std::string::npos) {
 		str.replace(start_pos, from.length(), to);
@@ -44,30 +42,31 @@ string ReplaceAll(string str, const string& from, const string& to) {
 	return str;
 }
 
-void removeDB(string dbname)
+void removeDB(std::string dbname)
 {
 	
 	if (remove(dbname.c_str()) != 0)
-		cout << "Error of deleting file!";
+		std::cout << "	<<Error of deleting file!>>";
 	else
-		cout << "file is successfully removed!";
+		std::cout << "	<<File is successfully removed!>>";
 }
 
 void help()
 {
-	cout << endl;
-	cout << "	create <DB name> - to create a new DB" << endl;
-	cout << "	edit <DB name> - to edit existed DB" << endl;
-	cout << "	list - to see all created DB" << endl;
-	cout << "	view <DB name> - see the DB in console" << endl;
-	cout << "	search <DB name> - search Stocks in DB" << endl;
-	cout << "	count <DB name> - count elements on each Stock" << endl;
-	cout << "	sort <DB name> - to sort DB" << endl;
-	cout << "	delete <DB name> - to delete DB" << endl;
-	cout << endl;
+	std::cout << std::endl;
+	std::cout << "	create <DB name> - to create a new DB" << std::endl;
+	std::cout << "	edit <DB name> - to edit existed DB" << std::endl;
+	std::cout << "	list - to see all created DB" << std::endl;
+	std::cout << "	view <DB name> - see the DB in console" << std::endl;
+	std::cout << "	search <DB name> - search Stocks in DB" << std::endl;
+	std::cout << "	count <DB name> - count elements on each Stock" << std::endl;
+	std::cout << "	sort <DB name> - to sort DB" << std::endl;
+	std::cout << "	delete <DB name> - to delete DB" << std::endl;
+	std::cout << "	exit - to exit from DB redactor" << std::endl;
+	std::cout << std::endl;
 }
 
-void createDB(string dbname)
+void createDB(std::string dbname)
 {
 	DataBase db(dbname + ".txt");
 	db.save();
@@ -75,40 +74,40 @@ void createDB(string dbname)
 
 void showList()
 {
-	cout << "	Existed DB: \n\n";
-	string path;		
+	std::cout << "	Existed DB: \n\n";
+	std::string path;
 	for (fs::recursive_directory_iterator i(path), end; i != end; i++)
 	{
 		if (!fs::is_directory(i->path()) && i->path().extension() == ".txt")
 		{				
-			cout << "	" << i->path() << "\n";
+			std::cout << "	" << i->path() << "\n";
 		}
 	}
 }
 
-void editDB(string dbname)
+void editDB(std::string dbname)
 {
-	cout << "		YOU OPENED THE \"" << dbname << "\"" << "\n\t TO SEE DB - open\n\t TO ADD SOME ELEMENTS - add\n\t TO REMOVE ELEMENTS remove" << endl <<  ">> ";
-	string fans;
-	string ans;
-	string answer;
+	std::cout << "		YOU OPENED THE \"" << dbname << "\"" << "\n\t TO SEE DB - open\n\t TO ADD SOME ELEMENTS - add\n\t TO REMOVE ELEMENTS remove" << std::endl <<  ">> ";
+	std::string fans;
+	std::string ans;
+	std::string answer;
 	bool contin = true;
-	string city; string name; int qty;	int size; int height; int count; string type;
+	std::string city; std::string name; int qty; int size; int height; int count; std::string type;
 	int qtyOfElem; int qtyOfSizes;
-	getline(cin, fans);
+	getline(std::cin, fans);
 	
 	if (fans == "open")
 	{
-		string x;
-		ifstream inFile;
+		std::string x;
+		std::ifstream inFile;
 
 		inFile.open(dbname);
 		if (!inFile) {
-			cout << "Unable to open file";
+			std::cout << "	<<Unable to open file!>>";
 		}
 
 		while (inFile >> x) {
-			cout << x << endl;
+			std::cout << x << std::endl;
 		}
 
 		inFile.close();
@@ -118,31 +117,31 @@ void editDB(string dbname)
 		while (contin)
 		{
 			while (true) {
-				cout << "	What kind of stock you want? If Shoes - type shoe, if Wear - type wear!" << endl;
-				getline(cin, ans);
+				std::cout << "	What kind of stock you want? If Shoes - type shoe, if Wear - type wear!" << std::endl << ">> ";
+				getline(std::cin, ans);
 				if (ans == "wear")
 				{
-					cout << "Enter name of stock: "; getline(cin, name);
-					cout << "Enter the city: "; getline(cin, city);
-					cout << "Enter the max stock size: "; cin >> qty;
+					std::cout << " Enter name of stock: "; getline(std::cin, name);
+					std::cout << " Enter the city: "; getline(std::cin, city);
+					std::cout << " Enter the max stock size: "; std::cin >> qty;
 					WearStock* a = new WearStock(name, city, qty);
-					cout << "Enter qty of different products: "; cin >> qtyOfElem;
+					std::cout << " Enter qty of different products: "; std::cin >> qtyOfElem;
 					for (int i = 0; i < qtyOfElem; i++) {
-						vector<WearStock::StockWearValue> sizes;
-						cin.ignore();
-						cout << "Enter the type of product: "; getline(cin, type);
-						cout << "Enter qty of different sizes: "; cin >> qtyOfSizes;
+						std::vector<WearStock::StockWearValue> sizes;
+						std::cin.ignore();
+						std::cout << " Enter the type of product: "; getline(std::cin, type);
+						std::cout << " Enter qty of different sizes: "; std::cin >> qtyOfSizes;
 						for (int j = 0; j < qtyOfSizes; j++)
 						{
-							cout << "	ENTER SIZES FOR " << type << " FOR " << j + 1 << " SIZETYPE!" << endl;
-							cout << "Enter size: "; cin >> size;
-							cout << "Enter height: "; cin >> height;
-							cout << "Enter count: "; cin >> count;
+							std::cout << "	ENTER SIZES FOR " << type << " FOR " << j + 1 << " SIZETYPE!" << std::endl;
+							std::cout << " Enter size: "; std::cin >> size;
+							std::cout << " Enter height: "; std::cin >> height;
+							std::cout << " Enter count: "; std::cin >> count;
 							sizes.push_back(WearStock::StockWearValue(size, height, count));
 						}
 						bool isSuccess = a->addwear(type, sizes);
 						if (!isSuccess) {
-							std::cout << "Size of stock is not so big! If you want to add less things firstly remove existed empty one!" << std::endl;
+							std::cout << "	<<Size of stock is not so big! If you want to add less things firstly remove existed empty one!>>" << std::endl;
 						}
 					}
 					DataBase db(dbname);
@@ -151,26 +150,26 @@ void editDB(string dbname)
 				}
 				else if (ans == "shoe")
 				{
-					cout << "Enter name of stock: "; getline(cin, name);
-					cout << "Enter the city: "; getline(cin, city);
-					cout << "Enter the max stock size: "; cin >> qty;
+					std::cout << " Enter name of stock: "; getline(std::cin, name);
+					std::cout << " Enter the city: "; getline(std::cin, city);
+					std::cout << " Enter the max stock size: "; std::cin >> qty;
 					ShoeStock* a = new ShoeStock(name, city, qty);
-					cout << "Enter qty of different products: "; cin >> qtyOfElem;
+					std::cout << " Enter qty of different products: "; std::cin >> qtyOfElem;
 					for (int i = 0; i < qtyOfElem; i++) {
-						vector<ShoeStock::StockShoeValue> sizes;
-						cin.ignore();
-						cout << "Enter the type of product: "; getline(cin, type);
-						cout << "Enter qty of different sizes: "; cin >> qtyOfSizes;
+						std::vector<ShoeStock::StockShoeValue> sizes;
+						std::cin.ignore();
+						std::cout << " Enter the type of product: "; getline(std::cin, type);
+						std::cout << " Enter qty of different sizes: "; std::cin >> qtyOfSizes;
 						for (int j = 0; j < qtyOfSizes; j++)
 						{
-							cout << "	ENTER SIZES FOR " << type << " FOR " << j + 1 << " SIZETYPE!" << endl;
-							cout << "Enter size: "; cin >> size;
-							cout << "Enter count: "; cin >> count;
+							std::cout << "	ENTER SIZES FOR " << type << " FOR " << j + 1 << " SIZETYPE!" << std::endl;
+							std::cout << " Enter size: "; std::cin >> size;
+							std::cout << " Enter count: "; std::cin >> count;
 							sizes.push_back(ShoeStock::StockShoeValue(size, count));
 						}
 						bool isSuccess = a->addwear(type, sizes);
 						if (!isSuccess) {
-							std::cout << "Size of stock is not so big! If you want to add less things firstly remove existed empty one!" << std::endl;
+							std::cout << "	<<Size of stock is not so big! If you want to add less things firstly remove existed empty one!>>" << std::endl;
 						}
 						
 					}
@@ -179,12 +178,12 @@ void editDB(string dbname)
 					break;
 				}
 				else
-					cout << "	There are no such a answer, choose from fallowing!" << endl;
+					std::cout << "	<<There are no such a answer, choose from fallowing!>>" << std::endl;
 			}
 			while (true) {
-				cout << "	Want to add more? y/n" << endl << ">> ";
-				cin.ignore();
-				getline(cin, answer);
+				std::cout << "	Want to add more? y/n" << std::endl << ">> ";
+				std::cin.ignore();
+				getline(std::cin, answer);
 				if (answer == "n") {
 					contin = false;
 					break;
@@ -194,7 +193,7 @@ void editDB(string dbname)
 					break;
 				}
 				else
-					cout << "	Incorrect answer! Type y or n!" << endl;
+					std::cout << "	<<Incorrect answer! Type y or n!>>" << std::endl;
 			}
 
 		}
@@ -207,26 +206,26 @@ void editDB(string dbname)
 
 		if (!file_in)
 		{
-			cout << "	Sorry, the file can't be opened!" << std::endl;
+			std::cout << "	<<Sorry, the file can't be opened!>>" << std::endl;
 		}
-		string x;
-		ifstream inFile;
+		std::string x;
+		std::ifstream inFile;
 
 		inFile.open(dbname);
 		if (!inFile) {
-			cout << "Unable to open file";
+			std::cout << "	<<Unable to open file>>";
 		}
 
 		int iter = 1;
 		while (inFile >> x) {
-			cout <<" " << iter << "  " << x << endl;
+			std::cout <<" " << iter << "  " << x << std::endl;
 			iter++;
 		}
 
 		inFile.close();
 		std::cout << "	Enter string number: " << std::endl << ">> ";
 		int i_number_line_delete = 0; //для хранения номера строки который нужно удалить
-		std::cin >> i_number_line_delete; 	cin.ignore();
+		std::cin >> i_number_line_delete; 	std::cin.ignore();
 		int i_number_line_now = 0; //счётчик строк
 		std::string line; //для хранения строки
 		std::string line_file_text; //для хранения текста файла
@@ -246,49 +245,49 @@ void editDB(string dbname)
 		file_out.clear();
 	}
 	else
-		cout << "	There no such comand! " << endl;
+	std::cout << "	<<There no such comand!>>" << std::endl;
 
 }
 
-void view(string dbname)
+void view(std::string dbname)
 {
-	string x;
-	ifstream inFile;
+	std::string x;
+	std::ifstream inFile;
 
 	inFile.open(dbname);
 	if (!inFile) {
-		cout << "Unable to open file";
+		std::cout << "	<<Unable to open file!>>";
 	}
 
 	while (inFile >> x) {
-		cout << x << endl;
+		std::cout << x << std::endl;
 	}
 
 	inFile.close();
 }
 
-void searchForName(string dbname)
+void searchForName(std::string dbname)
 {
-	string answer;
-	cout << "		YOU SEARCH IN " << dbname << endl;
+	std::string answer;
+	std::cout << "		YOU SEARCH IN " << dbname << std::endl;
 	DataBase db(dbname);
-	cout << "	Enter the name of stock you want to find: " << endl << ">> ";
-	getline(cin, answer);
-	vector<Stock*> res = db.search(answer);
+	std::cout << "	Enter the name of stock you want to find: " << std::endl << ">> ";
+	getline(std::cin, answer);
+	std::vector<Stock*> res = db.search(answer);
 	for (auto i = 0; i < res.size(); i++)
 	{
 		if (res[i] != nullptr)
-			cout << res[i]->toString() << endl;
+			std::cout << res[i]->toString() << std::endl;
 		else
-			cout << "	Not found!" << endl;
+			std::cout << "	<<Not found!>>" << std::endl;
 	}
 }
 
-void countElem(string dbname)
+void countElem(std::string dbname)
 {
 	DataBase db(dbname);
 	size_t res = db.countElements(); 
-	cout << "	There are " << res << " elements in DB" << endl;
+	std::cout << "	There are " << res << " elements in DB" << std::endl;
 	auto v = db.getData();
 	
 	size_t amountWear = 0;
@@ -303,26 +302,26 @@ void countElem(string dbname)
 		}
 	}
 
-	cout << "	Qty of products in WearStock: " << amountWear << endl;
-	cout << "	Qty of products in ShoeStock: " << amountShoe << endl;
+	std::cout << "	Qty of products in WearStock: " << amountWear << std::endl;
+	std::cout << "	Qty of products in ShoeStock: " << amountShoe << std::endl;
 }
 
-void sortDB(string dbname)
+void sortDB(std::string dbname)
 {
 	int answer = 0;
-	cout << "	You want to sort by alphabet(1) or Qty on Stock(2)?" << endl << ">> "; cin >> answer; cin.ignore();
+	std::cout << "	You want to sort by alphabet(1) or Qty on Stock(2)?" << std::endl << ">> "; std::cin >> answer; std::cin.ignore();
 	if (answer == 1){
 		DataBase db(dbname);
-		ifstream inFile;
+		std::ifstream inFile;
 		inFile.open(dbname);
 		if (!inFile.fail())
 		{
-			vector<Stock*> v = db.getData();
-			sort(v.begin(), v.end(), [](Stock *left, Stock *right) -> bool {
+			std::vector<Stock*> v = db.getData();
+			std::sort(v.begin(), v.end(), [](Stock *left, Stock *right) -> bool {
 				return left->getName() < right->getName();
 			});
 
-			fstream oFile(dbname, ios::out);
+			std::fstream oFile(dbname, std::ios::out);
 			oFile.close();
 
 			for (const auto &it : v) {
@@ -330,21 +329,21 @@ void sortDB(string dbname)
 			}
 		}
 		else {
-			cout << "	Error Opening File" << endl;
+			std::cout << "	<<Error Opening File!>>" << std::endl;
 		}
 	}
 	else if (answer == 2) {
 		DataBase db(dbname);
-		ifstream inFile;
+		std::ifstream inFile;
 		inFile.open(dbname);
 		if (!inFile.fail())
 		{
-			vector<Stock*> v = db.getData();
-			sort(v.begin(), v.end(), [](Stock *left, Stock *right) -> bool {
+			std::vector<Stock*> v = db.getData();
+			std::sort(v.begin(), v.end(), [](Stock *left, Stock *right) -> bool {
 				return left->sizeQty() > right->sizeQty();
 			});
 
-			fstream oFile(dbname, ios::out);
+			std::fstream oFile(dbname, std::ios::out);
 			oFile.close();
 
 			for (const auto &it : v) {
@@ -352,27 +351,27 @@ void sortDB(string dbname)
 			}
 		}
 		else {
-			cout << "	Error Opening File" << endl;
+			std::cout << "	<<Error Opening File!>>" << std::endl;
 		}
 	}
 	else {
-		cout << "	You made a wrong choice!" << endl;
+		std::cout << "	<<You made a wrong choice!>>" << std::endl;
 	}
 }
 
 void starter()
 {
-	string answer;
+	std::string answer;
 
-	cout << "		Hello User! I am a DB creator! Type \"help\" to see list of comands!" << endl;
+	std::cout << "		Hello User! I am a DB redactor! Type \"help\" to see list of comands!" << std::endl;
 	while (true)
 	{
-		cout << endl << ">> ";
-		getline(cin, answer);
-		vector<string> comand = split(answer, ' ');
+		std::cout << std::endl << ">> ";
+		getline(std::cin, answer);
+		std::vector<std::string> comand = split(answer, ' ');
 		if (answer == "help")
 			help();
-		else if (comand[0] == "create" && comand.size()==2) {
+		else if (comand[0] == "create" && comand.size() == 2) {
 			createDB(comand[1]);
 		}
 		else if (answer == "list") {
@@ -384,10 +383,10 @@ void starter()
 		else if (comand[0] == "view" && comand.size() == 2) {
 			view(comand[1]);
 		}
-		else if (comand[0] == "search" && comand.size() == 2){
+		else if (comand[0] == "search" && comand.size() == 2) {
 			searchForName(comand[1]);
 		}
-		else if (comand[0] == "count" && comand.size() == 2){
+		else if (comand[0] == "count" && comand.size() == 2) {
 			countElem(comand[1]);
 		}
 		else if (comand[0] == "sort" && comand.size() == 2) {
@@ -396,8 +395,10 @@ void starter()
 		else if (comand[0] == "delete" && comand.size() == 2) {
 			removeDB(comand[1]);
 		}
+		else if (answer == "exit")
+			break;
 		else
-			cout << "	Sorry, there are no such comand!" << endl;
+			std::cout << "	<<Sorry, there are no such comand!>>" << std::endl;
 		
 	}
 }
@@ -405,7 +406,7 @@ void starter()
 int main()
 {
 	starter();
-
+	std::cout << "	Good bye! Thanks for using me!" << std::endl;
 	system("Pause");
 	return 0;
 }

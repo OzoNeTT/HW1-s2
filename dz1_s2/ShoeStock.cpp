@@ -1,6 +1,6 @@
 #include "main.h"
 
-void ShoeStock::addWears(vector<string> names, vector<vector<StockShoeValue>> sizes)
+void ShoeStock::addWears(std::vector<std::string> names, std::vector<std::vector<StockShoeValue>> sizes)
 {
 	for (int i = 0; i < names.size(); i++)
 	{
@@ -8,7 +8,7 @@ void ShoeStock::addWears(vector<string> names, vector<vector<StockShoeValue>> si
 	}
 }
 
-bool ShoeStock::addwear(string name, vector<StockShoeValue> sizes)
+bool ShoeStock::addwear(std::string name, std::vector<StockShoeValue> sizes)
 {
 	this->products[name] = sizes;
 	if (this->amount() > this->size) {
@@ -18,9 +18,9 @@ bool ShoeStock::addwear(string name, vector<StockShoeValue> sizes)
 	return true;
 }
 
-void ShoeStock::setCount(string name, StockShoeValue value)
+void ShoeStock::setCount(std::string name, StockShoeValue value)
 {
-	vector<StockShoeValue> j = this->products[name];
+	std::vector<StockShoeValue> j = this->products[name];
 	for (int i = 0; i < j.size(); i++)
 	{
 		if (j[i] == value)
@@ -33,9 +33,9 @@ int ShoeStock::sizeQty()
 	return this->size;
 }
 
-string ShoeStock::toString()
+std::string ShoeStock::toString()
 {
-	string result = "ShoeStock{" + name + ";" + city + ";" + to_string(size);
+	std::string result = "ShoeStock{" + name + ";" + city + ";" + std::to_string(size);
 	for (auto i = products.begin(); i != products.end(); i++)
 	{
 		result += ";" + i->first + "=";
@@ -61,16 +61,16 @@ size_t ShoeStock::amount()
 	return result;
 }
 
-ShoeStock* ShoeStock::fromString(string data)
+ShoeStock* ShoeStock::fromString(std::string data)
 {
-	vector<string> d1 = split(data, ";");
+	std::vector<std::string> d1 = split(data, ";");
 	ShoeStock* w = new ShoeStock(ReplaceAll(d1[0], "ShoeStock{", ""), d1[1], atoi(d1[2].c_str()));
 	for (int i = 3; i < d1.size(); i++) {
-		vector<string> d2 = split(d1[i], "=");
-		vector<ShoeStock::StockShoeValue> sizes;
-		vector<string> d3 = split(d2[1], ",");
+		std::vector<std::string> d2 = split(d1[i], "=");
+		std::vector<ShoeStock::StockShoeValue> sizes;
+		std::vector<std::string> d3 = split(d2[1], ",");
 		for (int j = 0; j < d3.size(); j++) {
-			vector<string> d4 = split(d3[j], "/");
+			std::vector<std::string> d4 = split(d3[j], "/");
 			sizes.push_back(ShoeStock::StockShoeValue(atoi(d4[0].c_str()), atoi(d4[1].c_str())));
 		}
 		w->addwear(d2[0], sizes);
@@ -78,9 +78,9 @@ ShoeStock* ShoeStock::fromString(string data)
 	return w;
 }
 
-ostream & operator<<(ostream &out, ShoeStock &stock)
+std::ostream & operator<<(std::ostream &out, ShoeStock &stock)
 {
-	out << "Name: " << stock.name << ". City: " << stock.city << ". Size: " << stock.size << endl << "Clothers: " << endl;
+	out << "Name: " << stock.name << ". City: " << stock.city << ". Size: " << stock.size << std::endl << "Shoes: " << std::endl;
 	for (auto i = stock.products.begin(); i != stock.products.end(); i++)
 	{
 		out << i->first << ": ";
@@ -88,7 +88,7 @@ ostream & operator<<(ostream &out, ShoeStock &stock)
 		{
 			out << i->second[j] << " ";
 		}
-		out << endl;
+		out << std::endl;
 	}
 	return out;
 }
