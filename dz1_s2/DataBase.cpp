@@ -21,6 +21,7 @@ vector<Stock*> DataBase::getData()
 	vector<Stock*> stocks;
 	ifstream f(this->name);
 	string str;
+
 	while (getline(f, str))
 	{
 		if (str.find("WearStock") != std::string::npos) {
@@ -34,12 +35,24 @@ vector<Stock*> DataBase::getData()
 	return stocks;
 }
 
-Stock* DataBase::search(string stockName)
+vector<Stock*> DataBase::search(string stockName)
 {
+	vector<Stock*> res;
 	vector<Stock*> v = this->getData();
 	for (int i = 0; i < v.size(); i++) {
 		if (v[i]->getName() == stockName)
-			return v[i];
+			res.push_back(v[i]);
 	}
-	return NULL;
+
+	return res;
+}
+
+size_t DataBase::countElements()
+{
+	size_t result = 0;
+	vector<Stock*> v = this->getData();
+	for (auto it : v) {
+		result += it->amount();
+	}
+	return result;
 }

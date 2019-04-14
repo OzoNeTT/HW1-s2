@@ -8,6 +8,7 @@
 #include <sstream>
 #include <fstream>
 #include <filesystem>
+#include <iterator>
 using namespace std;
 namespace fs = std::filesystem;
 
@@ -37,8 +38,10 @@ public:
 	{
 		return this->size;
 	}
+
 	virtual string toString() = NULL;
 
+	virtual size_t amount() = 0;
 };
 
 class WearStock : public Stock
@@ -80,15 +83,20 @@ public:
 		virtual string toString() {
 			return to_string(this->size) + "/" + to_string(this->height) + "/" + to_string(this->count);
 		}
+		int getCount()
+		{
+			return this->count;
+		}
 
 	};
 	WearStock(string name, string city, int size) : Stock(name, city, size){}
 	void addWears(vector<string>, vector<vector<StockWearValue>> sizes);
-	void addwear(string, vector<StockWearValue>);
+	bool addwear(string, vector<StockWearValue>);
 	void setCount(string, StockWearValue);
 	friend ostream& operator<< (ostream &, WearStock &);
 	int sizeQty();
 	string toString();
+	size_t amount() override;
 	static WearStock* fromString(string data);
 private:
 	map<string, vector<StockWearValue>> products;
@@ -112,6 +120,10 @@ public:
 			this->size = size;
 			this->count = count;
 		}
+		int getCount() const
+		{
+			return this->count;
+		}
 		bool operator==(StockShoeValue& b)
 		{
 			return this->size == b.size;
@@ -127,11 +139,12 @@ public:
 	};
 	ShoeStock(string name, string city, int size) : Stock(name, city, size) {}
 	void addWears(vector<string>, vector<vector<StockShoeValue>> sizes);
-	void addwear(string, vector<StockShoeValue>);
+	bool addwear(string, vector<StockShoeValue>);
 	void setCount(string, StockShoeValue);
 	friend ostream& operator<< (ostream &, ShoeStock &);
 	int sizeQty();
 	string toString();
+	size_t amount() override;
 	static ShoeStock* fromString(string data);
 private:
 	map<string, vector<StockShoeValue>> products;
@@ -144,5 +157,6 @@ public:
 	void save();
 	void save(Stock*);
 	vector<Stock*> getData();
-	Stock* search(string stockName);
+	vector<Stock*> search(string stockName);
+	size_t countElements();
 };

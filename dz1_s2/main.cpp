@@ -51,6 +51,7 @@ void help()
 	std::cout << "edit <DB name> - to edit existed DB" << endl;
 	std::cout << "show list - to see all created DB" << endl;
 	std::cout << "view <DB name> - see the DB in console" << endl;
+	std::cout << "search <DB name> - search Stocks in DB" << endl;
 	std::cout << endl;
 }
 
@@ -75,7 +76,7 @@ void showList()
 
 void editDB(string dbname)
 {
-	cout << "		YOU OPENED THE \"" << dbname << "\"" << endl << "		TO SEE DB TYPE open, TO ADD SOME ELEMENTS TYPE add" << endl <<  ">> ";
+	cout << "		YOU OPENED THE \"" << dbname << "\"" << endl << "TO SEE DB TYPE open, TO ADD SOME ELEMENTS TYPE add, TO REMOVE ELEMENTS TYPE remove" << endl <<  ">> ";
 	string fans;
 	string ans;
 	string answer;
@@ -127,7 +128,10 @@ void editDB(string dbname)
 							cout << "Enter count: "; cin >> count;
 							sizes.push_back(WearStock::StockWearValue(size, height, count));
 						}
-						a->addwear(type, sizes);
+						bool isSuccess = a->addwear(type, sizes);
+						if (!isSuccess) {
+							std::cout << "Size of stock is not so big! If you want to add less things firstly remove existed empty one!" << std::endl;
+						}
 					}
 					DataBase db(dbname);
 					db.save(a);
@@ -152,7 +156,11 @@ void editDB(string dbname)
 							cout << "Enter count: "; cin >> count;
 							sizes.push_back(ShoeStock::StockShoeValue(size, count));
 						}
-						a->addwear(type, sizes);
+						bool isSuccess = a->addwear(type, sizes);
+						if (!isSuccess) {
+							std::cout << "Size of stock is not so big! If you want to add less things firstly remove existed empty one!" << std::endl;
+						}
+						
 					}
 					DataBase db(dbname);
 					db.save(a);
@@ -179,14 +187,103 @@ void editDB(string dbname)
 
 		}
 	}
+	else if (fans == "remove")
+	{
+		std::ifstream file_in;
+
+		file_in.open(dbname);
+
+		if (!file_in)
+		{
+			cout << "Sorry, the file can't be opened!" << std::endl;
+		}
+		std::cout << "Enter string number: " << std::endl;
+		int i_number_line_delete = 0; //для хранения номера строки который нужно удалить
+		std::cin >> i_number_line_delete; 	cin.ignore();
+		int i_number_line_now = 0; //счётчик строк
+		std::string line; //для хранения строки
+		std::string line_file_text; //для хранения текста файла
+		while (getline(file_in, line))
+		{
+			i_number_line_now++;
+			if (!(i_number_line_now == i_number_line_delete))
+			{
+				line_file_text.insert(line_file_text.size(), line); 
+				line_file_text.insert(line_file_text.size(), "\r\n");
+			}
+		}
+		file_in.close();
+		std::ofstream file_out;
+		file_out.open(dbname, std::ios::trunc | std::ios::binary); 
+		file_out.write(line_file_text.c_str(), line_file_text.size());
+		file_out.clear();
+	}
 	else
 		cout << "There no such comand! " << endl;
 
 }
 
+void view(string dbname)
+{
+	string x;
+	ifstream inFile;
+
+	inFile.open(dbname);
+	if (!inFile) {
+		cout << "Unable to open file";
+	}
+
+	while (inFile >> x) {
+		cout << x << endl;
+	}
+
+	inFile.close();
+}
+
+void searchForName(string dbname)
+{
+	string answer;
+	cout << "		YOU SEARCH IN " << dbname << endl;
+	DataBase db(dbname);
+	cout << "Enter the name of stock you want to find: " << endl << ">> ";
+	getline(cin, answer);
+	vector<Stock*> res = db.search(answer);
+	for (auto i = 0; i < res.size(); i++)
+	{
+		if (res[i] != nullptr)
+			cout << res[i]->toString() << endl;
+		else
+			cout << "Not found!" << endl;
+	}
+}
+
+void countElem(string dbname)
+{
+	DataBase db(dbname);
+	size_t res = db.countElements(); 
+	cout << "There are " << res << " elements in DB" << endl;
+	auto v = db.getData();
+	
+	size_t amountWear = 0;
+	size_t amountShoe = 0;
+
+	for (auto pointer : v) {
+		WearStock *wear = dynamic_cast<WearStock *>(pointer);
+		if (wear) {
+			amountWear += pointer->amount();
+		} else {
+			amountShoe += pointer->amount();
+		}
+	}
+
+	cout << "Qty of products in WearStock: " << amountWear << endl;
+	cout << "Qty of products in ShoeStock: " << amountShoe << endl;
+}
+
 void starter()
 {
 	string answer;
+
 	cout << "Hello User! I am a DB creator! Type \"help\" to see list of comands!" << endl;
 	while (true)
 	{
@@ -205,7 +302,13 @@ void starter()
 			editDB(comand[1]);
 		}
 		else if (comand[0] == "view" && comand.size() == 2) {
-
+			view(comand[1]);
+		}
+		else if (comand[0] == "search" && comand.size() == 2){
+			searchForName(comand[1]);
+		}
+		else if (comand[0] == "count" && comand.size() == 2){
+			countElem(comand[1]);
 		}
 		else
 			cout << "Sorry, there are no such comand!" << endl;

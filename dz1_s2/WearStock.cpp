@@ -8,9 +8,14 @@ void WearStock::addWears(vector<string> names, vector<vector<StockWearValue>> si
 	}
 }
 
-void WearStock::addwear(string name, vector<StockWearValue> sizes)
+bool WearStock::addwear(string name, vector<StockWearValue> sizes)
 {
 	this->products[name] = sizes;
+	if (this->amount() > this->size) {
+		this->products.erase(name);
+		return false;
+	}
+	return true;
 }
 
 void WearStock::setCount(string name, StockWearValue value)
@@ -42,6 +47,18 @@ string WearStock::toString()
 		}
 	}
 	return result + "}";
+}
+
+size_t WearStock::amount()
+{
+	size_t result = 0;
+	for (auto it : this->products)
+	{
+		for (auto product : it.second) {
+			result += product.getCount();
+		}
+	}
+	return result;
 }
 
 WearStock* WearStock::fromString(string data)

@@ -8,9 +8,14 @@ void ShoeStock::addWears(vector<string> names, vector<vector<StockShoeValue>> si
 	}
 }
 
-void ShoeStock::addwear(string name, vector<StockShoeValue> sizes)
+bool ShoeStock::addwear(string name, vector<StockShoeValue> sizes)
 {
 	this->products[name] = sizes;
+	if (this->amount() > this->size) {
+		this->products.erase(name);
+		return false;
+	}
+	return true;
 }
 
 void ShoeStock::setCount(string name, StockShoeValue value)
@@ -31,7 +36,7 @@ int ShoeStock::sizeQty()
 string ShoeStock::toString()
 {
 	string result = "ShoeStock{" + name + ";" + city + ";" + to_string(size);
-	for (map<string, vector<ShoeStock::StockShoeValue>>::iterator i = products.begin(); i != products.end(); i++)
+	for (auto i = products.begin(); i != products.end(); i++)
 	{
 		result += ";" + i->first + "=";
 		for (int j = 0; j < i->second.size(); j++)
@@ -42,6 +47,18 @@ string ShoeStock::toString()
 		}
 	}
 	return result + "}";
+}
+
+size_t ShoeStock::amount()
+{
+	size_t result = 0;
+	for (auto it : this->products)
+	{
+		for (auto product : it.second) {
+			result += product.getCount();
+		}
+	}
+	return result;
 }
 
 ShoeStock* ShoeStock::fromString(string data)
@@ -64,7 +81,7 @@ ShoeStock* ShoeStock::fromString(string data)
 ostream & operator<<(ostream &out, ShoeStock &stock)
 {
 	out << "Name: " << stock.name << ". City: " << stock.city << ". Size: " << stock.size << endl << "Clothers: " << endl;
-	for (map<string, vector<ShoeStock::StockShoeValue>>::iterator i = stock.products.begin(); i != stock.products.end(); i++)
+	for (auto i = stock.products.begin(); i != stock.products.end(); i++)
 	{
 		out << i->first << ": ";
 		for (int j = 0; j < i->second.size(); j++)
