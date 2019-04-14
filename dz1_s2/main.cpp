@@ -53,6 +53,7 @@ void help()
 	std::cout << "	view <DB name> - see the DB in console" << endl;
 	std::cout << "	search <DB name> - search Stocks in DB" << endl;
 	std::cout << "	count <DB name> - count elements on each Stock" << endl;
+	std::cout << "	sort <DB name> - to sort DB" << endl;
 	std::cout << endl;
 }
 
@@ -296,6 +297,20 @@ void countElem(string dbname)
 	cout << "	Qty of products in ShoeStock: " << amountShoe << endl;
 }
 
+void sortDB(string dbname)
+{
+	ifstream inFile;
+	inFile.open(dbname);
+	if (!inFile.fail())
+	{
+		
+
+	}
+	else {
+		cout << "	Error Opening File" << endl;
+	}
+}
+
 void starter()
 {
 	string answer;
@@ -325,6 +340,9 @@ void starter()
 		}
 		else if (comand[0] == "count" && comand.size() == 2){
 			countElem(comand[1]);
+		}
+		else if (comand[0] == "sort" && comand.size() == 2) {
+			sortDB(comand[1]);
 		}
 		else
 			cout << "	Sorry, there are no such comand!" << endl;
