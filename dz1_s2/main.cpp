@@ -44,17 +44,27 @@ string ReplaceAll(string str, const string& from, const string& to) {
 	return str;
 }
 
+void removeDB(string dbname)
+{
+	
+	if (remove(dbname.c_str()) != 0)
+		cout << "Error of deleting file!";
+	else
+		cout << "file is successfully removed!";
+}
+
 void help()
 {
-	std::cout << endl;
-	std::cout << "	create <DB name> - to create a new DB" << endl;
-	std::cout << "	edit <DB name> - to edit existed DB" << endl;
-	std::cout << "	list - to see all created DB" << endl;
-	std::cout << "	view <DB name> - see the DB in console" << endl;
-	std::cout << "	search <DB name> - search Stocks in DB" << endl;
-	std::cout << "	count <DB name> - count elements on each Stock" << endl;
-	std::cout << "	sort <DB name> - to sort DB" << endl;
-	std::cout << endl;
+	cout << endl;
+	cout << "	create <DB name> - to create a new DB" << endl;
+	cout << "	edit <DB name> - to edit existed DB" << endl;
+	cout << "	list - to see all created DB" << endl;
+	cout << "	view <DB name> - see the DB in console" << endl;
+	cout << "	search <DB name> - search Stocks in DB" << endl;
+	cout << "	count <DB name> - count elements on each Stock" << endl;
+	cout << "	sort <DB name> - to sort DB" << endl;
+	cout << "	delete <DB name> - to delete DB" << endl;
+	cout << endl;
 }
 
 void createDB(string dbname)
@@ -382,6 +392,9 @@ void starter()
 		}
 		else if (comand[0] == "sort" && comand.size() == 2) {
 			sortDB(comand[1]);
+		}
+		else if (comand[0] == "delete" && comand.size() == 2) {
+			removeDB(comand[1]);
 		}
 		else
 			cout << "	Sorry, there are no such comand!" << endl;
