@@ -30,7 +30,7 @@ void ShoeStock::setCount(string name, StockShoeValue value)
 
 int ShoeStock::sizeQty()
 {
-	return 0;
+	return this->size;
 }
 
 string ShoeStock::toString()

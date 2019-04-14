@@ -299,15 +299,54 @@ void countElem(string dbname)
 
 void sortDB(string dbname)
 {
-	ifstream inFile;
-	inFile.open(dbname);
-	if (!inFile.fail())
-	{
-		
+	int answer = 0;
+	cout << "	You want to sort by alphabet(1) or Qty on Stock(2)?" << endl << ">> "; cin >> answer; cin.ignore();
+	if (answer == 1){
+		DataBase db(dbname);
+		ifstream inFile;
+		inFile.open(dbname);
+		if (!inFile.fail())
+		{
+			vector<Stock*> v = db.getData();
+			sort(v.begin(), v.end(), [](Stock *left, Stock *right) -> bool {
+				return left->getName() < right->getName();
+			});
 
+			fstream oFile(dbname, ios::out);
+			oFile.close();
+
+			for (const auto &it : v) {
+				db.save(it);
+			}
+		}
+		else {
+			cout << "	Error Opening File" << endl;
+		}
+	}
+	else if (answer == 2) {
+		DataBase db(dbname);
+		ifstream inFile;
+		inFile.open(dbname);
+		if (!inFile.fail())
+		{
+			vector<Stock*> v = db.getData();
+			sort(v.begin(), v.end(), [](Stock *left, Stock *right) -> bool {
+				return left->sizeQty() > right->sizeQty();
+			});
+
+			fstream oFile(dbname, ios::out);
+			oFile.close();
+
+			for (const auto &it : v) {
+				db.save(it);
+			}
+		}
+		else {
+			cout << "	Error Opening File" << endl;
+		}
 	}
 	else {
-		cout << "	Error Opening File" << endl;
+		cout << "	You made a wrong choice!" << endl;
 	}
 }
 
