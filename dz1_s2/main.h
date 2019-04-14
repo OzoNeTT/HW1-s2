@@ -39,7 +39,7 @@ public:
 		return this->size;
 	}
 
-	virtual string toString() = NULL;
+	virtual string toString() = NULL{}
 
 	virtual size_t amount() = 0;
 };

@@ -4,6 +4,7 @@ DataBase::DataBase(string name)
 {
 	this->name = name;
 }
+
 void DataBase::save() {
 	ofstream f2(this->name, ios::app);
 	f2 << "";
