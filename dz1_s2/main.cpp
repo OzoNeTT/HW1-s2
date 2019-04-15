@@ -405,29 +405,63 @@ void pickDB(std::string dbname)
 			DataBase db(dbname);
 			std::ifstream inFile;
 			inFile.open(dbname);
-			if (!inFile.fail())
-			{
+			if (!inFile.fail()) {
+				std::vector<Stock*> temp;
 				std::vector<Stock*> v = db.getData();
-				for (auto &it : v)
-				{
-						std::cout << it->getName() << std::endl;
-				}
-				/*std::vector<Stock*> temp;
-				std::vector<Stock*> v = db.getData();
-				for (auto &it : v)
-				{
-					int a = it->getSize();
-					if (a > 40)
-					{
-						temp.push_back(it);
+
+				for (auto &it : v) {
+					WearStock *wear = dynamic_cast<WearStock *>(it);
+					if (wear) {
+						size_t amount = std::count_if(
+							wear->getProducts().begin(),
+							wear->getProducts().end(), 
+							[](std::pair<std::string, std::vector<WearStock::StockWearValue>> pair)
+							{
+								return std::find_if(pair.second.begin(), pair.second.end(),
+									[](WearStock::StockWearValue value)
+									{
+										return value.getSizeSize() < 40;
+									}
+								) != pair.second.end();
+							}
+						);
+						if (amount > 0) {
+							temp.push_back(it);
+						}
+					} else {
+						ShoeStock *shoe = dynamic_cast<ShoeStock *>(it);
+						size_t amount = std::count_if(
+							shoe->getProducts().begin(),
+							shoe->getProducts().end(),
+							[](std::pair<std::string, std::vector<ShoeStock::StockShoeValue>> pair)
+							{
+								return std::find_if(
+									pair.second.begin(),
+									pair.second.end(),
+									[](ShoeStock::StockShoeValue value)
+									{
+										return value.getSizeSize() < 36;
+									}
+								) != pair.second.end();
+							}
+						);
+						if (amount > 0) {
+							temp.push_back(it);
+						}
 					}
 				}
-				std::cout << " Enter file name with .txt" << std::endl << ">> "; getline(std::cin, newfile);
+				std::cout << " Enter file name with .txt\n>> ";
+				getline(std::cin, newfile);
 				DataBase ndbb(newfile);
 
-				for (const auto &it : temp) {
-					ndbb.save(it);
-				}*/
+				if (temp.empty()) {
+					std::cout << "	<<No such Stock!>>" << std::endl;
+				}
+				else {
+					for (const auto &it : temp) {
+						ndbb.save(it);
+					}
+				}
 			}
 			else {
 				std::cout << "	<<Error Opening File!>>" << std::endl;
@@ -438,9 +472,64 @@ void pickDB(std::string dbname)
 			DataBase db(dbname);
 			std::ifstream inFile;
 			inFile.open(dbname);
-			if (!inFile.fail())
-			{
+			if (!inFile.fail()) {
+				std::vector<Stock*> temp;
+				std::vector<Stock*> v = db.getData();
 
+				for (auto &it : v) {
+					WearStock *wear = dynamic_cast<WearStock *>(it);
+					if (wear) {
+						size_t amount = std::count_if(
+							wear->getProducts().begin(),
+							wear->getProducts().end(),
+							[](std::pair<std::string, std::vector<WearStock::StockWearValue>> pair)
+						{
+							return std::find_if(pair.second.begin(), pair.second.end(),
+								[](WearStock::StockWearValue value)
+							{
+								return value.getSizeSize() > 50;
+							}
+							) != pair.second.end();
+						}
+						);
+						if (amount > 0) {
+							temp.push_back(it);
+						}
+					}
+					else {
+						ShoeStock *shoe = dynamic_cast<ShoeStock *>(it);
+						size_t amount = std::count_if(
+							shoe->getProducts().begin(),
+							shoe->getProducts().end(),
+							[](std::pair<std::string, std::vector<ShoeStock::StockShoeValue>> pair)
+						{
+							return std::find_if(
+								pair.second.begin(),
+								pair.second.end(),
+								[](ShoeStock::StockShoeValue value)
+							{
+								return value.getSizeSize() > 45;
+							}
+							) != pair.second.end();
+						}
+						);
+						if (amount > 0) {
+							temp.push_back(it);
+						}
+					}
+				}
+				std::cout << " Enter file name with .txt\n>> ";
+				getline(std::cin, newfile);
+				DataBase ndbb(newfile);
+
+				if (temp.empty()) {
+					std::cout << "	<<No such Stock!>>" << std::endl;
+				}
+				else {
+					for (const auto &it : temp) {
+						ndbb.save(it);
+					}
+				}
 			}
 			else {
 				std::cout << "	<<Error Opening File!>>" << std::endl;
@@ -452,6 +541,17 @@ void pickDB(std::string dbname)
 	else
 		std::cout << "	<<There is no such choice!>>" << std::endl;
 }
+
+/*
+Если вдруг захочешь рефакторинг
+std::string getLine(const std::string &output)
+{
+	std::cout << output;
+	std::string result;
+	std::getline(std::cin, result);
+	return result;
+}
+*/
 
 void starter()
 {

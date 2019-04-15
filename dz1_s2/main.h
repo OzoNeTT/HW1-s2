@@ -109,6 +109,10 @@ public:
 		return bar.getSizeSize();
 	}
 	std::string getCity();
+	auto &getProducts()
+	{
+		return this->products;
+	}
 	std::string toString();
 	size_t amount() override;
 	static WearStock* fromString(std::string data);
@@ -166,6 +170,10 @@ public:
 	size_t getSize()
 	{
 		return barr.getSizeSize();
+	}
+	auto &getProducts()
+	{
+		return this->products;
 	}
 	std::string toString();
 	size_t amount() override;
