@@ -40,8 +40,12 @@ public:
 		return this->size;
 	}
 
+	virtual std::string getCity()
+	{
+		return this->city;
+	}
 	virtual std::string toString() = NULL{}
-
+	virtual size_t getSize() = 0;
 	virtual size_t amount() = 0;
 };
 
@@ -84,18 +88,27 @@ public:
 		virtual std::string toString() {
 			return std::to_string(this->size) + "/" + std::to_string(this->height) + "/" + std::to_string(this->count);
 		}
+		int getSizeSize()
+		{
+			return this->size;
+		}
 		int getCount()
 		{
 			return this->count;
 		}
 
-	};
+	} bar;
 	WearStock(std::string name, std::string city, int size) : Stock(name, city, size){}
 	void addWears(std::vector<std::string>, std::vector<std::vector<StockWearValue>> sizes);
 	bool addwear(std::string, std::vector<StockWearValue>);
 	void setCount(std::string, StockWearValue);
 	friend std::ostream& operator<< (std::ostream &, WearStock &);
 	int sizeQty();
+	size_t getSize()
+	{
+		return bar.getSizeSize();
+	}
+	std::string getCity();
 	std::string toString();
 	size_t amount() override;
 	static WearStock* fromString(std::string data);
@@ -137,13 +150,23 @@ public:
 		virtual std::string toString() {
 			return std::to_string(this->size) + "/" + std::to_string(this->count);
 		}
-	};
+
+		int getSizeSize()
+		{
+			return this->size;
+		}
+	} barr;
 	ShoeStock(std::string name, std::string city, int size) : Stock(name, city, size) {}
 	void addWears(std::vector<std::string>, std::vector<std::vector<StockShoeValue>> sizes);
 	bool addwear(std::string, std::vector<StockShoeValue>);
 	void setCount(std::string, StockShoeValue);
 	friend std::ostream& operator<< (std::ostream &, ShoeStock &);
 	int sizeQty();
+	std::string getCity();
+	size_t getSize()
+	{
+		return barr.getSizeSize();
+	}
 	std::string toString();
 	size_t amount() override;
 	static ShoeStock* fromString(std::string data);

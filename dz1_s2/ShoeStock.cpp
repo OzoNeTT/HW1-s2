@@ -33,6 +33,11 @@ int ShoeStock::sizeQty()
 	return this->size;
 }
 
+std::string ShoeStock::getCity()
+{
+	return this->city;
+}
+
 std::string ShoeStock::toString()
 {
 	std::string result = "ShoeStock{" + name + ";" + city + ";" + std::to_string(size);

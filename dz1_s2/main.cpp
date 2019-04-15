@@ -62,6 +62,7 @@ void help()
 	std::cout << "	count <DB name> - count elements on each Stock" << std::endl;
 	std::cout << "	sort <DB name> - to sort DB" << std::endl;
 	std::cout << "	delete <DB name> - to delete DB" << std::endl;
+	std::cout << "	pick <DB name> - to pick Stocks with defined paramentrs" << std::endl;
 	std::cout << "	exit - to exit from DB redactor" << std::endl;
 	std::cout << std::endl;
 }
@@ -224,11 +225,11 @@ void editDB(std::string dbname)
 
 		inFile.close();
 		std::cout << "	Enter string number: " << std::endl << ">> ";
-		int i_number_line_delete = 0; //для хранения номера строки который нужно удалить
-		std::cin >> i_number_line_delete; 	std::cin.ignore();
-		int i_number_line_now = 0; //счётчик строк
-		std::string line; //для хранения строки
-		std::string line_file_text; //для хранения текста файла
+		int i_number_line_delete = 0;
+		std::cin >> i_number_line_delete; std::cin.ignore();
+		int i_number_line_now = 0; 
+		std::string line; 
+		std::string line_file_text; 
 		while (getline(file_in, line))
 		{
 			i_number_line_now++;
@@ -359,6 +360,99 @@ void sortDB(std::string dbname)
 	}
 }
 
+void pickDB(std::string dbname)
+{
+	std::cout << "	You want to pick from city(1) or size(2)" << std::endl << ">> ";
+	int ans = 0;
+	std::cin >> ans;
+	if (ans == 1)
+	{
+		std::string city;
+		std::string newfile;
+		std::cout << " Enter city" << std::endl << ">> "; std::cin.ignore(); getline(std::cin, city);
+		DataBase db(dbname);
+		std::ifstream inFile;
+		inFile.open(dbname);
+		if (!inFile.fail())
+		{
+			std::vector<Stock*> temp;
+			std::vector<Stock*> v = db.getData();
+			for (auto &it : v)
+			{
+				if(it->getCity() == city)
+				{
+					temp.push_back(it);
+				}
+			}
+			std::cout << " Enter file name with .txt" << std::endl << ">> "; getline(std::cin, newfile);
+			DataBase ndb(newfile);
+
+			for (const auto &it : temp) {
+				ndb.save(it);
+			}
+		}
+		else {
+			std::cout << "	<<Error Opening File!>>" << std::endl;
+		}
+	}
+	else if (ans == 2)
+	{
+		std::string newfile;
+		std::string answer;
+		std::cout << "	You want to pick low or high sizes?" << std::endl << ">> "; std::cin.ignore(); getline(std::cin, answer);
+		if (answer == "low")
+		{
+			DataBase db(dbname);
+			std::ifstream inFile;
+			inFile.open(dbname);
+			if (!inFile.fail())
+			{
+				std::vector<Stock*> v = db.getData();
+				for (auto &it : v)
+				{
+						std::cout << it->getName() << std::endl;
+				}
+				/*std::vector<Stock*> temp;
+				std::vector<Stock*> v = db.getData();
+				for (auto &it : v)
+				{
+					int a = it->getSize();
+					if (a > 40)
+					{
+						temp.push_back(it);
+					}
+				}
+				std::cout << " Enter file name with .txt" << std::endl << ">> "; getline(std::cin, newfile);
+				DataBase ndbb(newfile);
+
+				for (const auto &it : temp) {
+					ndbb.save(it);
+				}*/
+			}
+			else {
+				std::cout << "	<<Error Opening File!>>" << std::endl;
+			}
+		}
+		else if (answer == "high")
+		{
+			DataBase db(dbname);
+			std::ifstream inFile;
+			inFile.open(dbname);
+			if (!inFile.fail())
+			{
+
+			}
+			else {
+				std::cout << "	<<Error Opening File!>>" << std::endl;
+			}
+		}
+		else
+			std::cout << "	<<Sorry, wrong choice!>>" << std::endl;
+	}
+	else
+		std::cout << "	<<There is no such choice!>>" << std::endl;
+}
+
 void starter()
 {
 	std::string answer;
@@ -395,11 +489,15 @@ void starter()
 		else if (comand[0] == "delete" && comand.size() == 2) {
 			removeDB(comand[1]);
 		}
+		else if (comand[0] == "pick" && comand.size() == 2) {
+			pickDB(comand[1]);
+		}
+		else if (answer == "meme")
+			std::cout << " DO YOU WANT SOME BOOLIAN DRUGS? 10010010101000010001010" << std::endl;
 		else if (answer == "exit")
 			break;
 		else
 			std::cout << "	<<Sorry, there are no such comand!>>" << std::endl;
-		
 	}
 }
 

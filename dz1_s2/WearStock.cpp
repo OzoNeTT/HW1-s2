@@ -30,7 +30,12 @@ void WearStock::setCount(std::string name, StockWearValue value)
 
 int WearStock::sizeQty()
 {
-	return 0;
+	return this->size;
+}
+
+std::string WearStock::getCity()
+{
+	return this->city;
 }
 
 std::string WearStock::toString()
