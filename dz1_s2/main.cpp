@@ -542,17 +542,6 @@ void pickDB(std::string dbname)
 		std::cout << "	<<There is no such choice!>>" << std::endl;
 }
 
-/*
-Если вдруг захочешь рефакторинг
-std::string getLine(const std::string &output)
-{
-	std::cout << output;
-	std::string result;
-	std::getline(std::cin, result);
-	return result;
-}
-*/
-
 void starter()
 {
 	std::string answer;
