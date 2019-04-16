@@ -1,4 +1,3 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/uj8dwf38u449een4?svg=true)](https://ci.appveyor.com/project/OzoNeTT/hw1-s2)
 ## Home work I
 
 Данное домашнее задание посвящено разработке базы данных на языке **C++**.
