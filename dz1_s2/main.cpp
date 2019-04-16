@@ -77,10 +77,8 @@ void showList()
 {
 	std::cout << "\tExisted DB: \n\n";
 	std::string path;
-	for (fs::recursive_directory_iterator i(path), end; i != end; i++)
-	{
-		if (!fs::is_directory(i->path()) && i->path().extension() == ".txt")
-		{				
+	for (fs::recursive_directory_iterator i(path), end; i != end; i++){
+		if (!fs::is_directory(i->path()) && i->path().extension() == ".txt"){				
 			std::cout << "\t" << i->path().filename().string() << "\n";
 		}
 	}
