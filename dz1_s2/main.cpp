@@ -75,13 +75,13 @@ void createDB(std::string dbname)
 
 void showList()
 {
-	std::cout << "	Existed DB: \n\n";
+	std::cout << "\tExisted DB: \n\n";
 	std::string path;
 	for (fs::recursive_directory_iterator i(path), end; i != end; i++)
 	{
 		if (!fs::is_directory(i->path()) && i->path().extension() == ".txt")
 		{				
-			std::cout << "	" << i->path() << "\n";
+			std::cout << "\t" << i->path().filename().string() << "\n";
 		}
 	}
 }
@@ -554,7 +554,7 @@ bool isInDir(std::string fileName)
 	{
 		if (!fs::is_directory(i->path()) && i->path().extension() == ".txt")
 		{
-			if (i->path().filename() == fileName)
+			if (i->path().filename().string() == fileName)
 				return true;
 		}
 	}
