@@ -54,16 +54,17 @@ void removeDB(std::string dbname)
 void help()
 {
 	std::cout << std::endl;
-	std::cout << "	create <DB name> - to create a new DB" << std::endl;
-	std::cout << "	edit <DB name> - to edit existed DB" << std::endl;
-	std::cout << "	list - to see all created DB" << std::endl;
-	std::cout << "	view <DB name> - see the DB in console" << std::endl;
-	std::cout << "	search <DB name> - search Stocks in DB" << std::endl;
-	std::cout << "	count <DB name> - count elements on each Stock" << std::endl;
-	std::cout << "	sort <DB name> - to sort DB" << std::endl;
-	std::cout << "	delete <DB name> - to delete DB" << std::endl;
-	std::cout << "	pick <DB name> - to pick Stocks with defined paramentrs" << std::endl;
-	std::cout << "	exit - to exit from DB redactor" << std::endl;
+	std::cout << "\tcreate <DB name>    - to create a new DB" << std::endl;
+	std::cout << "\tedit <DB name>      - to edit existed DB" << std::endl;
+	std::cout << "\tlist                - to see all created DB" << std::endl;
+	std::cout << "\tview <DB name>      - see the DB in console" << std::endl;
+	std::cout << "\tsearch <DB name>    - search Stocks in DB" << std::endl;
+	std::cout << "\tcount <DB name>     - count elements on each Stock" << std::endl;
+	std::cout << "\tsort <DB name>      - to sort DB" << std::endl;
+	std::cout << "\tdelete <DB name>    - to delete DB" << std::endl;
+	std::cout << "\tpick <DB name>      - to pick Stocks with defined paramentrs" << std::endl;
+	std::cout << "\thow                 - to see string saving format" << std::endl;
+	std::cout << "\texit                - to exit from DB redactor" << std::endl;
 	std::cout << std::endl;
 }
 
