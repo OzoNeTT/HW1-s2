@@ -552,12 +552,12 @@ void starter()
 		std::cout << std::endl << ">> ";
 		getline(std::cin, answer);
 		std::vector<std::string> comand = split(answer, ' ');
-		if (answer == "help")
+		if (answer == "help" || answer == "help ")
 			help();
 		else if (comand[0] == "create" && comand.size() == 2) {
 			createDB(comand[1]);
 		}
-		else if (answer == "list") {
+		else if (answer == "list " || answer == "list") {
 			showList();
 		}
 		else if (comand[0] == "edit" && comand.size() == 2) {
@@ -583,7 +583,7 @@ void starter()
 		}
 		else if (answer == "meme")
 			std::cout << " DO YOU WANT SOME BOOLIAN DRUGS? 10010010101000010001010" << std::endl;
-		else if (answer == "exit")
+		else if (answer == "exit" || answer == "exit ")
 			break;
 		else
 			std::cout << "	<<Sorry, there are no such comand!>>" << std::endl;

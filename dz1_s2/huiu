@@ -1,8 +1,4 @@
-ShoeStock{Ojert;Ekt;1022;Butsi=44/9,45/23;Krosi=45/10,46/14}
 ShoeStock{Hollr;Moscow;432;Butsi=44/9,45/23;Krosi=45/10,46/14}
-WearStock{Coller;Vlad;430;Kurtki=120/80/32,130/75/12;Maiki=90/30/10,100/43/13}
-ShoeStock{Oplerfd;Yak;320;Butsi=44/9,45/23;Krosi=45/10,46/14}
 WearStock{Board;Moscow;300;Maiki=80/30/10,110/43/13;Shorti=100/80/32,135/75/12}
 ShoeStock{Dople;Moscow;222;Butsi=44/9,45/23;Krosi=45/10,46/14}
-WearStock{Doel;Esp;201;Maiki=80/30/10,110/43/13;Shorti=100/80/32,135/75/12}
 WearStock{Afort;Moscow;100;Kurtki=120/80/32,130/75/12;Maiki=90/30/10,100/43/13}
