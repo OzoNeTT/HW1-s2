@@ -88,7 +88,7 @@ void showList()
 
 void editDB(std::string dbname)
 {
-	std::cout << "		YOU OPENED THE \"" << dbname << "\"" << "\n\t TO SEE DB - open\n\t TO ADD SOME ELEMENTS - add\n\t TO REMOVE ELEMENTS remove" << std::endl <<  ">> ";
+	std::cout << "\tYOU OPENED THE \"" << dbname << "\"" << "\n\t TO SEE DB - open\n\t TO ADD SOME ELEMENTS - add\n\t TO REMOVE ELEMENTS remove" << std::endl <<  ">> ";
 	std::string fans;
 	std::string ans;
 	std::string answer;
@@ -572,39 +572,68 @@ void starter()
 		if (answer != "") {
 			std::vector<std::string> comand = split(answer, ' ');
 			comand.resize(2);
-			if (!isInDir(comand[1])) {
-				std::cout << "	<<FILE NOT FOUND!>>" << std::endl;
-				continue;
-			}
 			std::transform(comand[0].begin(), comand[0].end(), comand[0].begin(), (int(*)(int))std::tolower);
+
 			if (comand[0] == "help" || comand[0] + " " == "help ") {
 				help();
 			}
 			else if (comand[0] == "create" && comand.size() == 2) {
+				if (!isInDir(comand[1])) {
+					std::cout << "	<<FILE NOT FOUND!>>" << std::endl;
+					continue;
+				}
 				createDB(comand[1]);
 			}
 			else if (comand[0] == "list" || comand[0] + " " == "list ") {
 				showList();
 			}
 			else if (comand[0] == "edit" && comand.size() == 2) {
+				if (!isInDir(comand[1])) {
+					std::cout << "	<<FILE NOT FOUND!>>" << std::endl;
+					continue;
+				}
 				editDB(comand[1]);
 			}
 			else if (comand[0] == "view" && comand.size() == 2) {
+				if (!isInDir(comand[1])) {
+					std::cout << "	<<FILE NOT FOUND!>>" << std::endl;
+					continue;
+				}
 				view(comand[1]);
 			}
 			else if (comand[0] == "search" && comand.size() == 2) {
+				if (!isInDir(comand[1])) {
+					std::cout << "	<<FILE NOT FOUND!>>" << std::endl;
+					continue;
+				}
 				searchForName(comand[1]);
 			}
 			else if (comand[0] == "count" && comand.size() == 2) {
+				if (!isInDir(comand[1])) {
+					std::cout << "	<<FILE NOT FOUND!>>" << std::endl;
+					continue;
+				}
 				countElem(comand[1]);
 			}
 			else if (comand[0] == "sort" && comand.size() == 2) {
+				if (!isInDir(comand[1])) {
+					std::cout << "	<<FILE NOT FOUND!>>" << std::endl;
+					continue;
+				}
 				sortDB(comand[1]);
 			}
 			else if (comand[0] == "delete" && comand.size() == 2) {
+				if (!isInDir(comand[1])) {
+					std::cout << "	<<FILE NOT FOUND!>>" << std::endl;
+					continue;
+				}
 				removeDB(comand[1]);
 			}
 			else if (comand[0] == "pick" && comand.size() == 2) {
+				if (!isInDir(comand[1])) {
+					std::cout << "	<<FILE NOT FOUND!>>" << std::endl;
+					continue;
+				}
 				pickDB(comand[1]);
 			}
 			else if (comand[0] == "how" || comand[0] + " " == "how ")
