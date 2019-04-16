@@ -9,6 +9,7 @@
 #include <fstream>
 #include <filesystem>
 #include <iterator>
+#include <cctype>
 #include <cstdio>    
 
 namespace fs = std::filesystem;

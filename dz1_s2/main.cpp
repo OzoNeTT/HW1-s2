@@ -182,7 +182,7 @@ void editDB(std::string dbname)
 					std::cout << "	<<There are no such a answer, choose from fallowing!>>" << std::endl;
 			}
 			while (true) {
-				std::cout << "	Want to add more? y/n" << std::endl << ">> ";
+				std::cout << "	Want to add more? |y/n|" << std::endl << ">> ";
 				std::cin.ignore();
 				getline(std::cin, answer);
 				if (answer == "n") {
@@ -194,7 +194,7 @@ void editDB(std::string dbname)
 					break;
 				}
 				else
-					std::cout << "	<<Incorrect answer! Type y or n!>>" << std::endl;
+					std::cout << "	<<Incorrect answer! Type |y| or |n| !>>" << std::endl;
 			}
 
 		}
@@ -362,7 +362,7 @@ void sortDB(std::string dbname)
 
 void pickDB(std::string dbname)
 {
-	std::cout << "	You want to pick from city(1) or size(2)" << std::endl << ">> ";
+	std::cout << "	You want to pick from city(1) or size(2)?" << std::endl << ">> ";
 	int ans = 0;
 	std::cin >> ans;
 	if (ans == 1)
@@ -399,7 +399,7 @@ void pickDB(std::string dbname)
 	{
 		std::string newfile;
 		std::string answer;
-		std::cout << "	You want to pick low or high sizes?" << std::endl << ">> "; std::cin.ignore(); getline(std::cin, answer);
+		std::cout << "	You want to pick \"low\" or \"high\" sizes?" << std::endl << ">> "; std::cin.ignore(); getline(std::cin, answer);
 		if (answer == "low")
 		{
 			DataBase db(dbname);
@@ -542,51 +542,67 @@ void pickDB(std::string dbname)
 		std::cout << "	<<There is no such choice!>>" << std::endl;
 }
 
+void how()
+{
+	std::cout << "\tThe stocks are saving in .txt file as:\n\t<STOCK_TYPE>{<NAME>;<CITY>;<MAX_QTY>;<TYPE_1>=<SIZE_1>/<HEIGHT>(only if Wear)/<QTY>,<SIZE_2/...;<TYPE_n>=...}" << std::endl;
+}
+
 void starter()
 {
 	std::string answer;
-
 	std::cout << "		Hello User! I am a DB redactor! Type \"help\" to see list of comands!" << std::endl;
 	while (true)
 	{
 		std::cout << std::endl << ">> ";
 		getline(std::cin, answer);
-		std::vector<std::string> comand = split(answer, ' ');
-		if (answer == "help" || answer == "help ")
-			help();
-		else if (comand[0] == "create" && comand.size() == 2) {
-			createDB(comand[1]);
+		if (answer != "") {
+			std::vector<std::string> comand = split(answer, ' ');
+			if (comand.size() > 2)
+			{
+				std::cout << "	<<comand can be only 2 worlds long!>>\n\tI understand this as: " << comand[0] + " " + comand[1] << "\n\n";
+			}
+			comand.resize(2);
+			std::transform(comand[0].begin(), comand[0].end(), comand[0].begin(), (int(*)(int))std::tolower);
+			if (comand[0] == "help" || comand[0] + " " == "help ") {
+				help();
+			}
+			else if (comand[0] == "create" && comand.size() == 2) {
+				createDB(comand[1]);
+			}
+			else if (comand[0] == "list" || comand[0] + " " == "list ") {
+				showList();
+			}
+			else if (comand[0] == "edit" && comand.size() == 2) {
+				editDB(comand[1]);
+			}
+			else if (comand[0] == "view" && comand.size() == 2) {
+				view(comand[1]);
+			}
+			else if (comand[0] == "search" && comand.size() == 2) {
+				searchForName(comand[1]);
+			}
+			else if (comand[0] == "count" && comand.size() == 2) {
+				countElem(comand[1]);
+			}
+			else if (comand[0] == "sort" && comand.size() == 2) {
+				sortDB(comand[1]);
+			}
+			else if (comand[0] == "delete" && comand.size() == 2) {
+				removeDB(comand[1]);
+			}
+			else if (comand[0] == "pick" && comand.size() == 2) {
+				pickDB(comand[1]);
+			}
+			else if (comand[0] == "how" || comand[0] + " " == "how ")
+				how();
+			else if (comand[0] == "exit" || comand[0] + " " == "exit ")
+				break;
+			else
+				std::cout << "	<<Sorry, there are no such comand!>>" << std::endl;
 		}
-		else if (answer == "list " || answer == "list") {
-			showList();
+		else {
+			std::cout << "	<<Please enter some comand!>>" << std::endl;
 		}
-		else if (comand[0] == "edit" && comand.size() == 2) {
-			editDB(comand[1]);
-		}
-		else if (comand[0] == "view" && comand.size() == 2) {
-			view(comand[1]);
-		}
-		else if (comand[0] == "search" && comand.size() == 2) {
-			searchForName(comand[1]);
-		}
-		else if (comand[0] == "count" && comand.size() == 2) {
-			countElem(comand[1]);
-		}
-		else if (comand[0] == "sort" && comand.size() == 2) {
-			sortDB(comand[1]);
-		}
-		else if (comand[0] == "delete" && comand.size() == 2) {
-			removeDB(comand[1]);
-		}
-		else if (comand[0] == "pick" && comand.size() == 2) {
-			pickDB(comand[1]);
-		}
-		else if (answer == "meme")
-			std::cout << " DO YOU WANT SOME BOOLIAN DRUGS? 10010010101000010001010" << std::endl;
-		else if (answer == "exit" || answer == "exit ")
-			break;
-		else
-			std::cout << "	<<Sorry, there are no such comand!>>" << std::endl;
 	}
 }
 

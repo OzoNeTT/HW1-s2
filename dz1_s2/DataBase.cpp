@@ -22,7 +22,6 @@ std::vector<Stock*> DataBase::getData()
 	std::vector<Stock*> stocks;
 	std::ifstream f(this->name);
 	std::string str;
-
 	while (getline(f, str))
 	{
 		if (str.find("WearStock") != std::string::npos) {
