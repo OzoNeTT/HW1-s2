@@ -93,8 +93,15 @@ void editDB(std::string dbname)
 	std::string ans;
 	std::string answer;
 	bool contin = true;
-	std::string city; std::string name; int qty; int size; int height; int count; std::string type;
-	int qtyOfElem; int qtyOfSizes;
+	std::string city; 
+	std::string name; 
+	int qty; 
+	int size; 
+	int height; 
+	int count; 
+	std::string type;
+	int qtyOfElem; 
+	int qtyOfSizes;
 	getline(std::cin, fans);
 	
 	if (fans == "open")
@@ -125,11 +132,14 @@ void editDB(std::string dbname)
 					std::cout << " Enter name of stock: "; getline(std::cin, name);
 					std::cout << " Enter the city: "; getline(std::cin, city);
 					std::cout << " Enter the max stock size: "; std::cin >> qty;
+
 					WearStock* a = new WearStock(name, city, qty);
 					std::cout << " Enter qty of different products: "; std::cin >> qtyOfElem;
+
 					for (int i = 0; i < qtyOfElem; i++) {
 						std::vector<WearStock::StockWearValue> sizes;
 						std::cin.ignore();
+
 						std::cout << " Enter the type of product: "; getline(std::cin, type);
 						std::cout << " Enter qty of different sizes: "; std::cin >> qtyOfSizes;
 						for (int j = 0; j < qtyOfSizes; j++)
@@ -154,11 +164,14 @@ void editDB(std::string dbname)
 					std::cout << " Enter name of stock: "; getline(std::cin, name);
 					std::cout << " Enter the city: "; getline(std::cin, city);
 					std::cout << " Enter the max stock size: "; std::cin >> qty;
+
 					ShoeStock* a = new ShoeStock(name, city, qty);
 					std::cout << " Enter qty of different products: "; std::cin >> qtyOfElem;
+
 					for (int i = 0; i < qtyOfElem; i++) {
 						std::vector<ShoeStock::StockShoeValue> sizes;
 						std::cin.ignore();
+						
 						std::cout << " Enter the type of product: "; getline(std::cin, type);
 						std::cout << " Enter qty of different sizes: "; std::cin >> qtyOfSizes;
 						for (int j = 0; j < qtyOfSizes; j++)
@@ -185,6 +198,7 @@ void editDB(std::string dbname)
 				std::cout << "	Want to add more? |y/n|" << std::endl << ">> ";
 				std::cin.ignore();
 				getline(std::cin, answer);
+
 				if (answer == "n") {
 					contin = false;
 					break;
@@ -272,6 +286,7 @@ void searchForName(std::string dbname)
 	std::string answer;
 	std::cout << "		YOU SEARCH IN " << dbname << std::endl;
 	DataBase db(dbname);
+
 	std::cout << "	Enter the name of stock you want to find: " << std::endl << ">> ";
 	getline(std::cin, answer);
 	std::vector<Stock*> res = db.search(answer);
@@ -315,6 +330,7 @@ void sortDB(std::string dbname)
 		DataBase db(dbname);
 		std::ifstream inFile;
 		inFile.open(dbname);
+
 		if (!inFile.fail())
 		{
 			std::vector<Stock*> v = db.getData();
@@ -412,14 +428,10 @@ void pickDB(std::string dbname)
 				for (auto &it : v) {
 					WearStock *wear = dynamic_cast<WearStock *>(it);
 					if (wear) {
-						size_t amount = std::count_if(
-							wear->getProducts().begin(),
-							wear->getProducts().end(), 
-							[](std::pair<std::string, std::vector<WearStock::StockWearValue>> pair)
-							{
+						size_t amount = std::count_if(wear->getProducts().begin(), wear->getProducts().end(), 
+							[](std::pair<std::string, std::vector<WearStock::StockWearValue>> pair)	{
 								return std::find_if(pair.second.begin(), pair.second.end(),
-									[](WearStock::StockWearValue value)
-									{
+									[](WearStock::StockWearValue value)	{
 										return value.getSizeSize() < 40;
 									}
 								) != pair.second.end();
@@ -430,16 +442,10 @@ void pickDB(std::string dbname)
 						}
 					} else {
 						ShoeStock *shoe = dynamic_cast<ShoeStock *>(it);
-						size_t amount = std::count_if(
-							shoe->getProducts().begin(),
-							shoe->getProducts().end(),
-							[](std::pair<std::string, std::vector<ShoeStock::StockShoeValue>> pair)
-							{
-								return std::find_if(
-									pair.second.begin(),
-									pair.second.end(),
-									[](ShoeStock::StockShoeValue value)
-									{
+						size_t amount = std::count_if(shoe->getProducts().begin(), shoe->getProducts().end(),
+							[](std::pair<std::string, std::vector<ShoeStock::StockShoeValue>> pair)	{
+								return std::find_if(pair.second.begin(), pair.second.end(),
+									[](ShoeStock::StockShoeValue value)	{
 										return value.getSizeSize() < 36;
 									}
 								) != pair.second.end();
@@ -479,18 +485,14 @@ void pickDB(std::string dbname)
 				for (auto &it : v) {
 					WearStock *wear = dynamic_cast<WearStock *>(it);
 					if (wear) {
-						size_t amount = std::count_if(
-							wear->getProducts().begin(),
-							wear->getProducts().end(),
-							[](std::pair<std::string, std::vector<WearStock::StockWearValue>> pair)
-						{
+						size_t amount = std::count_if(wear->getProducts().begin(), wear->getProducts().end(),
+							[](std::pair<std::string, std::vector<WearStock::StockWearValue>> pair) {
 							return std::find_if(pair.second.begin(), pair.second.end(),
-								[](WearStock::StockWearValue value)
-							{
-								return value.getSizeSize() > 50;
+								[](WearStock::StockWearValue value)	{
+										return value.getSizeSize() > 50;
+									}
+								) != pair.second.end();
 							}
-							) != pair.second.end();
-						}
 						);
 						if (amount > 0) {
 							temp.push_back(it);
@@ -498,20 +500,15 @@ void pickDB(std::string dbname)
 					}
 					else {
 						ShoeStock *shoe = dynamic_cast<ShoeStock *>(it);
-						size_t amount = std::count_if(
-							shoe->getProducts().begin(),
-							shoe->getProducts().end(),
-							[](std::pair<std::string, std::vector<ShoeStock::StockShoeValue>> pair)
-						{
-							return std::find_if(
-								pair.second.begin(),
-								pair.second.end(),
-								[](ShoeStock::StockShoeValue value)
-							{
-								return value.getSizeSize() > 45;
+						size_t amount = std::count_if(shoe->getProducts().begin(), shoe->getProducts().end(),
+							[](std::pair<std::string, std::vector<ShoeStock::StockShoeValue>> pair)	{
+								return std::find_if(pair.second.begin(), pair.second.end(),
+									[](ShoeStock::StockShoeValue value)
+									{
+										return value.getSizeSize() > 45;
+									}
+								) != pair.second.end();
 							}
-							) != pair.second.end();
-						}
 						);
 						if (amount > 0) {
 							temp.push_back(it);
