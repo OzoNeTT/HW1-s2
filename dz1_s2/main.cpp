@@ -547,6 +547,20 @@ void how()
 	std::cout << "\tThe stocks are saving in .txt file as:\n\t<STOCK_TYPE>{<NAME>;<CITY>;<MAX_QTY>;<TYPE_1>=<SIZE_1>/<HEIGHT>(only if Wear)/<QTY>,<SIZE_2/...;<TYPE_n>=...}" << std::endl;
 }
 
+bool isInDir(std::string fileName)
+{
+	std::string path;
+	for (fs::recursive_directory_iterator i(path), end; i != end; i++)
+	{
+		if (!fs::is_directory(i->path()) && i->path().extension() == ".txt")
+		{
+			if (i->path().filename() == fileName)
+				return true;
+		}
+	}
+	return false;
+}
+
 void starter()
 {
 	std::string answer;
@@ -557,11 +571,11 @@ void starter()
 		getline(std::cin, answer);
 		if (answer != "") {
 			std::vector<std::string> comand = split(answer, ' ');
-			if (comand.size() > 2)
-			{
-				std::cout << "	<<comand can be only 2 worlds long!>>\n\tI understand this as: " << comand[0] + " " + comand[1] << "\n\n";
-			}
 			comand.resize(2);
+			if (!isInDir(comand[1])) {
+				std::cout << "	<<FILE NOT FOUND!>>" << std::endl;
+				continue;
+			}
 			std::transform(comand[0].begin(), comand[0].end(), comand[0].begin(), (int(*)(int))std::tolower);
 			if (comand[0] == "help" || comand[0] + " " == "help ") {
 				help();
