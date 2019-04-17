@@ -1,10 +1,8 @@
-## Home work I
+# Home work I
 
 Данное домашнее задание посвящено разработке базы данных на языке **C++**.
 
-```bash
-https://vk.com/algoan
-```
+### My page: [VK](https://vk.com/algoan)
 
 ## Tasks
 
