@@ -210,6 +210,7 @@ void editDB(std::string dbname)
 			}
 
 		}
+		
 	}
 	else if (fans == "remove")
 	{

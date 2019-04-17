@@ -11,6 +11,7 @@
 #include <iterator>
 #include <cctype>
 #include <cstdio>    
+#include <memory>
 
 namespace fs = std::filesystem;
 
@@ -190,6 +191,6 @@ public:
 	void save();
 	void save(Stock*);
 	std::vector<Stock*> getData();
-	std::vector<Stock*> search(std::string stockName);
+	std::vector<Stock*> search(std::string);
 	size_t countElements();
 };

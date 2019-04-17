@@ -70,6 +70,7 @@ ShoeStock* ShoeStock::fromString(std::string data)
 {
 	std::vector<std::string> d1 = split(data, ";");
 	ShoeStock* w = new ShoeStock(ReplaceAll(d1[0], "ShoeStock{", ""), d1[1], atoi(d1[2].c_str()));
+
 	for (int i = 3; i < d1.size(); i++) {
 		std::vector<std::string> d2 = split(d1[i], "=");
 		std::vector<ShoeStock::StockShoeValue> sizes;
@@ -80,7 +81,7 @@ ShoeStock* ShoeStock::fromString(std::string data)
 		}
 		w->addwear(d2[0], sizes);
 	}
-	return w;
+	return 	w;
 }
 
 std::ostream & operator<<(std::ostream &out, ShoeStock &stock)
