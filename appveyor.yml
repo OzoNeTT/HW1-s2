@@ -3,7 +3,7 @@ branches:
   only:
     - master
     - develop
-clone_folder: c:\projects\cmake-init
+clone_folder: c:\Users\Alexey\source\repos\
 image:
   - Visual Studio 2017
 configuration:
@@ -35,6 +35,6 @@ before_build:
       cmake .. -G %generator%
 
 build:
-  project: c:\projects\cmake-init\build\BMSTU_HW_4.sln
+  project: c:\Users\Alexey\source\repos\HW1-s2-master\dz1_s2.sln
   verbosity: minimal
   parallel: true
