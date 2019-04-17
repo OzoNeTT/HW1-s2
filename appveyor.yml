@@ -20,6 +20,8 @@ matrix:
 
 # skip unsupported combinations
 init:
+init:
+  - set PATH=%ProgramFiles(x86)%\Microsoft Visual Studio\2017\Professional\MSBuild\15.0\Bin\MSBuild.exe;%PATH%
   - set arch=
   - if "%arch%"=="Win64" ( set arch= Win64)
   - echo %arch%
