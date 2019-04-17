@@ -28,11 +28,6 @@ init:
   - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017" ( set generator="Visual Studio 15 2017%arch%" )
   - echo %generator%
 
-before_build:
-  - cmd: |-
-      mkdir build
-      cd build
-
 build:
   project: c:\Users\Alexey\source\repos\HW1-s2-master\dz1_s2.sln
   verbosity: minimal
