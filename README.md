@@ -2,7 +2,8 @@
 
 Данное домашнее задание посвящено разработке базы данных на языке **C++**.
 
-### My page: [VK](https://vk.com/algoan)
+### My page: 
+[VK](https://vk.com/algoan)
 
 ## Tasks
 
