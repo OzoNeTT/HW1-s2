@@ -258,6 +258,10 @@ void editDB(std::string dbname)
 		file_out.write(line_file_text.c_str(), line_file_text.size());
 		file_out.clear();
 	}
+	else if (fans == "exit")
+	{
+		std::cout << "\tYou exited...\n";
+	}
 	else
 	std::cout << "	<<There no such comand!>>" << std::endl;
 
@@ -574,10 +578,6 @@ void starter()
 				help();
 			}
 			else if (comand[0] == "create" && comand.size() == 2) {
-				if (!isInDir(comand[1])) {
-					std::cout << "	<<FILE NOT FOUND!>>" << std::endl;
-					continue;
-				}
 				createDB(comand[1]);
 			}
 			else if (comand[0] == "list" || comand[0] + " " == "list ") {

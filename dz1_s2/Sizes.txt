@@ -1,0 +1,7 @@
+WearStock{Afort;Moscow;100;Kurtki=12/80/32,13/75/12;Maiki=90/30/10,100/43/13}
+ShoeStock{Ojert;Ekt;1022;Butsi=44/91,45/63;Krosi=4/100,46/142}
+WearStock{Coller;Vlad;430;Kurtki=12/80/32,130/75/12;Maiki=90/30/10,100/43/13}
+ShoeStock{Opa;Jukov;120;type=30/40}
+ShoeStock{Opla;Jopla;123;ggg=13/30}
+ShoeStock{Goga;Moscow;120;Fff=34/20}
+ShoeStock{ddd;sss;123;a=1/1}

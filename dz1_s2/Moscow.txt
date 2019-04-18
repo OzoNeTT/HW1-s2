@@ -1,0 +1,8 @@
+WearStock{Afort;Moscow;100;Kurtki=12/80/32,13/75/12;Maiki=90/30/10,100/43/13}
+WearStock{Afort;Moscow;100;Kurtki=12/80/32,13/75/12;Maiki=90/30/10,100/43/13}
+WearStock{Board;Moscow;300;Maiki=80/30/10,110/43/13;Shorti=100/80/32,135/75/12}
+WearStock{Board;Moscow;300;Maiki=80/30/10,110/43/13;Shorti=100/80/32,135/75/12}
+ShoeStock{Dople;Moscow;222;Butsi=44/9,45/23;Krosi=45/10,46/14}
+ShoeStock{Dople;Moscow;222;Butsi=44/9,45/23;Krosi=45/10,46/14}
+ShoeStock{Hollr;Moscow;432;Butsi=44/9,45/23;Krosi=45/10,46/14}
+ShoeStock{Hollr;Moscow;432;Butsi=44/9,45/23;Krosi=45/10,46/14}
