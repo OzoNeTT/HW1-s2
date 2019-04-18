@@ -311,10 +311,7 @@ void editDB(std::string dbname)
 
 		file_in.open(dbname);
 
-		long file_size;
-		file_in.seekg(0, std::ios::end);
-		file_size = file_in.tellg();
-		if (file_size == 0) {
+		if (file_in.peek() == std::ifstream::traits_type::eof()) {
 			std::cout << "\t<<File is emty!>>\n" << std::endl;
 			file_in.close();
 		}
@@ -334,23 +331,31 @@ void editDB(std::string dbname)
 				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			}
 			std::cin.ignore();
-			int i_number_line_now = 0;
-			std::string line;
-			std::string line_file_text;
-			while (getline(file_in, line))
+			if (i_number_line_delete < iter)
 			{
-				i_number_line_now++;
-				if (!(i_number_line_now == i_number_line_delete))
+				int i_number_line_now = 0;
+				std::string line;
+				std::string line_file_text;
+				while (getline(file_in, line))
 				{
-					line_file_text.insert(line_file_text.size(), line);
-					line_file_text.insert(line_file_text.size(), "\r\n");
+					i_number_line_now++;
+					if (!(i_number_line_now == i_number_line_delete))
+					{
+						line_file_text.insert(line_file_text.size(), line);
+						line_file_text.insert(line_file_text.size(), "\r\n");
+					}
 				}
+				file_in.close();
+				std::ofstream file_out;
+				file_out.open(dbname, std::ios::trunc | std::ios::binary);
+				file_out.write(line_file_text.c_str(), line_file_text.size());
+				file_out.clear();
 			}
-			file_in.close();
-			std::ofstream file_out;
-			file_out.open(dbname, std::ios::trunc | std::ios::binary);
-			file_out.write(line_file_text.c_str(), line_file_text.size());
-			file_out.clear();
+			else
+			{
+				std::cout << "\t<<Sorry, this string isn't exists!>>\n";
+				file_in.close();
+			}
 		}
 	}
 	else if (fans == "exit")
