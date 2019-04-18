@@ -12,6 +12,8 @@
 #include <cctype>
 #include <cstdio>    
 #include <memory>
+#include <stdexcept>
+#include <limits>
 
 namespace fs = std::filesystem;
 
