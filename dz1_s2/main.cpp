@@ -288,49 +288,70 @@ void editDB(std::string dbname)
 	}
 	else if (fans == "remove")
 	{
-		std::ifstream file_in;
-
-		file_in.open(dbname);
-
-		if (!file_in)
-		{
-			std::cout << "	<<Sorry, the file can't be opened!>>" << std::endl;
-		}
+		//содержание
 		std::string x;
 		std::ifstream inFile;
-
+		
 		inFile.open(dbname);
 		if (!inFile) {
 			std::cout << "	<<Unable to open file>>";
 		}
-
+		
 		int iter = 1;
 		while (inFile >> x) {
-			std::cout <<" " << iter << "  " << x << std::endl;
+			std::cout << " " << iter << "  " << x << std::endl;
 			iter++;
 		}
-
+		
 		inFile.close();
-		std::cout << "	Enter string number: " << std::endl << ">> ";
-		int i_number_line_delete = 0;
-		std::cin >> i_number_line_delete; std::cin.ignore();
-		int i_number_line_now = 0; 
-		std::string line; 
-		std::string line_file_text; 
-		while (getline(file_in, line))
-		{
-			i_number_line_now++;
-			if (!(i_number_line_now == i_number_line_delete))
-			{
-				line_file_text.insert(line_file_text.size(), line); 
-				line_file_text.insert(line_file_text.size(), "\r\n");
-			}
+
+		//удаление
+
+		std::ifstream file_in;
+
+		file_in.open(dbname);
+
+		long file_size;
+		file_in.seekg(0, std::ios::end);
+		file_size = file_in.tellg();
+		if (file_size == 0) {
+			std::cout << "\t<<File is emty!>>\n" << std::endl;
+			file_in.close();
 		}
-		file_in.close();
-		std::ofstream file_out;
-		file_out.open(dbname, std::ios::trunc | std::ios::binary); 
-		file_out.write(line_file_text.c_str(), line_file_text.size());
-		file_out.clear();
+		else 
+		{
+			if (!file_in)
+			{
+				std::cout << "	<<Sorry, the file can't be opened!>>" << std::endl;
+			}
+
+			std::cout << "	Enter string number: " << std::endl << ">> ";
+			int i_number_line_delete = 0;
+			while (!(std::cin >> i_number_line_delete))
+			{
+				std::cout << "Invalid input ! Only integer allow " << std::endl;
+				std::cin.clear();
+				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			}
+			std::cin.ignore();
+			int i_number_line_now = 0;
+			std::string line;
+			std::string line_file_text;
+			while (getline(file_in, line))
+			{
+				i_number_line_now++;
+				if (!(i_number_line_now == i_number_line_delete))
+				{
+					line_file_text.insert(line_file_text.size(), line);
+					line_file_text.insert(line_file_text.size(), "\r\n");
+				}
+			}
+			file_in.close();
+			std::ofstream file_out;
+			file_out.open(dbname, std::ios::trunc | std::ios::binary);
+			file_out.write(line_file_text.c_str(), line_file_text.size());
+			file_out.clear();
+		}
 	}
 	else if (fans == "exit")
 	{
@@ -401,7 +422,14 @@ void countElem(std::string dbname)
 void sortDB(std::string dbname)
 {
 	int answer = 0;
-	std::cout << "	You want to sort by alphabet(1) or Qty on Stock(2)?" << std::endl << ">> "; std::cin >> answer; std::cin.ignore();
+	std::cout << "	You want to sort by alphabet(1) or Qty on Stock(2)?" << std::endl << ">> "; 
+	while (!(std::cin >> answer))
+	{
+		std::cout << "Invalid input ! Only integer allow " << std::endl;
+		std::cin.clear();
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	}
+	std::cin.ignore();
 	if (answer == 1){
 		DataBase db(dbname);
 		std::ifstream inFile;
@@ -456,7 +484,12 @@ void pickDB(std::string dbname)
 {
 	std::cout << "	You want to pick from city(1) or size(2)?" << std::endl << ">> ";
 	int ans = 0;
-	std::cin >> ans;
+	while (!(std::cin >> ans))
+	{
+		std::cout << "Invalid input ! Only integer allow " << std::endl;
+		std::cin.clear();
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	}
 	if (ans == 1)
 	{
 		std::string city;
@@ -476,7 +509,13 @@ void pickDB(std::string dbname)
 					temp.push_back(it);
 				}
 			}
-			std::cout << " Enter file name with .txt" << std::endl << ">> "; getline(std::cin, newfile);
+			std::cout << " Enter file name with .txt" << std::endl << ">> "; 
+			while (!(newfile.find(".txt") != std::string::npos)) {
+
+				getline(std::cin, newfile);
+				if (!(newfile.find(".txt") != std::string::npos))
+					std::cout << "\t<<Please enter DB name with .txt!>>\n";
+			}
 			DataBase ndb(newfile);
 
 			for (const auto &it : temp) {
@@ -533,7 +572,12 @@ void pickDB(std::string dbname)
 					}
 				}
 				std::cout << " Enter file name with .txt\n>> ";
-				getline(std::cin, newfile);
+				while (!(newfile.find(".txt") != std::string::npos)) {
+
+					getline(std::cin, newfile);
+					if (!(newfile.find(".txt") != std::string::npos))
+						std::cout << "\t<<Please enter DB name with .txt!>>\n";
+				}
 				DataBase ndbb(newfile);
 
 				if (temp.empty()) {
@@ -592,7 +636,13 @@ void pickDB(std::string dbname)
 					}
 				}
 				std::cout << " Enter file name with .txt\n>> ";
-				getline(std::cin, newfile);
+				
+				while (!(newfile.find(".txt") != std::string::npos)) {
+					
+					getline(std::cin, newfile);
+					if (!(newfile.find(".txt") != std::string::npos))
+						std::cout << "\t<<Please enter DB name with .txt!>>\n";
+				}
 				DataBase ndbb(newfile);
 
 				if (temp.empty()) {
