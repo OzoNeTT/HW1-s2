@@ -12,7 +12,7 @@
 #include <cctype>
 #include <cstdio>    
 #include <memory>
-#include <stdexcept>
+#include <exception>
 #include <experimental/filesystem>
 #include <limits>
 
@@ -35,7 +35,6 @@ public:
 		 this->city=city;
 		 this->size=size;
 	}
-
 	std::string getName() {
 		return this->name;
 	}

@@ -1,6 +1,6 @@
 #include "main.h"
 
-std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems)
+std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems) // Функция деления строки по параметру
 {
 	std::stringstream ss(s);
 	std::string item;
@@ -10,14 +10,14 @@ std::vector<std::string> &split(const std::string &s, char delim, std::vector<st
 	return elems;
 }
 
-std::vector<std::string> split(const std::string &s, char delim)
+std::vector<std::string> split(const std::string &s, char delim)// Функция деления строки по параметру
 {
 	std::vector<std::string> elems;
 	split(s, delim, elems);
 	return elems;
 }
 
-std::vector<std::string> split(std::string s, std::string delimiter) {
+std::vector<std::string> split(std::string s, std::string delimiter) { // Функция деления строки по параметру
 	size_t pos_start = 0, pos_end, delim_len = delimiter.length();
 	std::string token;
 	std::vector<std::string> res;
@@ -32,7 +32,7 @@ std::vector<std::string> split(std::string s, std::string delimiter) {
 	return res;
 }
 
-std::string ReplaceAll(std::string str, const std::string& from, const std::string& to) {
+std::string ReplaceAll(std::string str, const std::string& from, const std::string& to) {// Функция замены строки на параметр
 	size_t start_pos = 0;
 	while ((start_pos = str.find(from, start_pos)) != std::string::npos) {
 		str.replace(start_pos, from.length(), to);
@@ -41,16 +41,16 @@ std::string ReplaceAll(std::string str, const std::string& from, const std::stri
 	return str;
 }
 
-void removeDB(std::string dbname)
+void removeDB(std::string dbname) //удаления текстового файла
 {
 	
-	if (remove(dbname.c_str()) != 0)
-		std::cout << "	<<Error of deleting file!>>";
-	else
-		std::cout << "	<<File is successfully removed!>>";
+	if (remove(dbname.c_str()) != 0)  //удаляем
+		std::cout << "	<<Error of deleting file!>>"; //не смогли
+	else 
+		std::cout << "	<<File is successfully removed!>>"; //смогли
 }
 
-void help()
+void help() //меню помощь
 {
 	std::cout << std::endl;
 	std::cout << "\tcreate <DB name>    - to create a new DB" << std::endl;
@@ -67,221 +67,206 @@ void help()
 	std::cout << std::endl;
 }
 
-void createDB(std::string dbname)
+void createDB(std::string dbname) //создание текстового файла по названию
 {
-	DataBase db(dbname);
-	db.save();
+	DataBase db(dbname); //инициализируем
+	db.save(); //сохраняем
 }
 
-void showList()
+void showList() //выводим список баз данных
 {
 	std::cout << "\tExisted DB: \n\n";
 	std::string path;
-	for (fs::recursive_directory_iterator i(path), end; i != end; i++){
-		if (!fs::is_directory(i->path()) && i->path().extension() == ".txt"){				
-			std::cout << "\t" << i->path().filename().string() << "\n";
+	for (fs::recursive_directory_iterator i(path), end; i != end; i++){ //смотрим в дирректории 
+		if (!fs::is_directory(i->path()) && i->path().extension() == ".txt"){	//если в дирректории и есть формат .txt	
+			std::cout << "\t" << i->path().filename().string() << "\n"; //выводим название файла 
 		}
 	}
 }
-
-void editDB(std::string dbname)
+ 
+void editDB(std::string dbname) //функция изменения базы данных
 {
-	std::cout << "\tYOU OPENED THE \"" << dbname << "\"" << "\n\t TO SEE DB - open\n\t TO ADD SOME ELEMENTS - add\n\t TO REMOVE ELEMENTS remove" << std::endl <<  ">> ";
+	std::cout << "\tYOU OPENED THE \"" << dbname << "\"" << "\n\tTO SEE DB - open\n\tTO ADD SOME ELEMENTS - add\n\tTO REMOVE ELEMENTS remove" << std::endl <<  ">> ";
 	std::string fans;
 	std::string ans;
 	std::string answer;
 	bool contin = true;
 	std::string city; 
 	std::string name; 
-	int qty; 
-	int size; 
-	int height; 
-	int count; 
+	int qty = 0; 
+	int size = 0; 
+	int height = 0; 
+	int count = 0; 
 	std::string type;
-	int qtyOfElem; 
-	int qtyOfSizes;
+	int qtyOfElem = 0; 
+	int qtyOfSizes = 0;
 	getline(std::cin, fans);
 	
-	if (fans == "open")
+	if (fans == "open") //открываем
 	{
 		std::string x;
 		std::ifstream inFile;
 
-		inFile.open(dbname);
-		if (!inFile) {
-			std::cout << "	<<Unable to open file!>>";
+		inFile.open(dbname); //открываем файл
+		if (!inFile) { //не смогли открыть 
+			std::cout << "\t<<Unable to open file!>>\n";
 		}
 
-		while (inFile >> x) {
-			std::cout << x << std::endl;
-		}
+		while (inFile >> x) { //пока файл не окончен
+			std::cout << x << std::endl; //выводим содержание
+		} 
 
-		inFile.close();
+		inFile.close(); //закрываем
 	}
-	else if (fans == "add")
+	else if (fans == "add") //добавляем
 	{
-		while (contin)
+		while (contin) 
 		{
-			while (true) {
-				std::cout << "	What kind of stock you want? If Shoes - type shoe, if Wear - type wear!" << std::endl << ">> ";
+			while (true) { 
+				std::cout << "\tWhat kind of stock you want? If Shoes - type shoe, if Wear - type wear!" << std::endl << ">> ";
 
 				getline(std::cin, ans);
 
 				if (ans == "wear")
 				{
-
-					std::cout << " Enter name of stock: "; getline(std::cin, name);
-					std::cout << " Enter the city: "; getline(std::cin, city);
-					std::cout << " Enter the max stock size: ";
-					while (!(std::cin >> qty))
+					try
 					{
-						std::cout << "Invalid input ! Only integer allow " << std::endl;
-						std::cin.clear();
-						std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+						//заполняем основные параметры
+						std::cout << " Enter name of stock: "; getline(std::cin, name);
+						std::cout << " Enter the city: "; getline(std::cin, city);
+						std::cout << " Enter the max stock size: ";
+						if (!(std::cin >> qty))
+							throw std::exception("\t<<Input error, only integers allow!>>");
+
+						WearStock* a = new WearStock(name, city, qty); //объявляем атрибуд инициализировав через конструктор
+						std::cout << " Enter qty of different products: ";
+						if (!(std::cin >> qtyOfElem))
+							throw std::exception("\t<<Input error, only integers allow!>>");
+
+						//через цикл заполняем типы продуктов и количество размеров для них
+						for (int i = 0; i < qtyOfElem; i++) {
+							std::vector<WearStock::StockWearValue> sizes;
+							std::cin.ignore();
+
+							std::cout << " Enter the type of product: "; getline(std::cin, type);
+							std::cout << " Enter qty of different sizes: ";
+							if (!(std::cin >> qtyOfSizes))
+								throw std::exception("\t<<Input error, only integers allow!>>");
+							//через цикл заполняем размеры
+							for (int j = 0; j < qtyOfSizes; j++)
+							{
+								std::cout << "	ENTER SIZES FOR " << type << " FOR " << j + 1 << " SIZETYPE!" << std::endl;
+								std::cout << " Enter size: ";
+								std::cin >> size;
+								if (!(std::cin >> size))
+									throw std::exception("\t<<Input error, only integers allow!>>");
+								std::cout << " Enter height: ";
+								std::cin >> height;
+								if (!(std::cin >> height))
+									throw std::exception("\t<<Input error, only integers allow!>>");
+								std::cout << " Enter count: ";
+								std::cin >> count;
+								if (!(std::cin >> count))
+									throw std::exception("\t<<Input error, only integers allow!>>");
+
+								//добавляем в вектор размеров, используя конструктор размеров 
+								sizes.push_back(WearStock::StockWearValue(size, height, count));
+							}
+							//пытаемся добавить размеры для склада 
+							bool isSuccess = a->addwear(type, sizes);
+
+							if (!isSuccess) { //выводим сообщение, если добавить не смогли
+								std::cout << "	<<Size of stock is not so big! If you want to add less things firstly remove existed empty one!>>" << std::endl;
+							}
+							//инициализируем бд
+							DataBase db(dbname);
+							//сохраняем по переданному складу 
+							db.save(a);
+						}
+
 					}
-					WearStock* a = new WearStock(name, city, qty);
-					std::cout << " Enter qty of different products: ";
-					while (!(std::cin >> qtyOfElem))
+					catch(std::exception& ex)
 					{
-						std::cout << "Invalid input ! Only integer allow " << std::endl;
+						std::cout << "Error: " << ex.what() << std::endl;
 						std::cin.clear();
-						std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+						while (std::cin.get() != '\n');
 					}
-					for (int i = 0; i < qtyOfElem; i++) {
-						std::vector<WearStock::StockWearValue> sizes;
-						std::cin.ignore();
-
-						std::cout << " Enter the type of product: "; getline(std::cin, type);
-						std::cout << " Enter qty of different sizes: "; 
-						while (!(std::cin >> qtyOfSizes))
-						{
-							std::cout << "Invalid input ! Only integer allow " << std::endl;
-							std::cin.clear();
-							std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-						}
-						for (int j = 0; j < qtyOfSizes; j++)
-						{
-							std::cout << "	ENTER SIZES FOR " << type << " FOR " << j + 1 << " SIZETYPE!" << std::endl;
-							std::cout << " Enter size: ";
-
-							while (!(std::cin >> size))
-							{
-								std::cout << "Invalid input ! Only integer allow " << std::endl;
-								std::cin.clear();
-								std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-							}
-
-							std::cout << " Enter height: ";
-
-							while (!(std::cin >> height))
-							{
-								std::cout << "Invalid input ! Only integer allow " << std::endl;
-								std::cin.clear();
-								std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-							}
-
-							std::cout << " Enter count: ";
-
-							while (!(std::cin >> count))
-							{
-								std::cout << "Invalid input ! Only integer allow " << std::endl;
-								std::cin.clear();
-								std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-							}
-
-							sizes.push_back(WearStock::StockWearValue(size, height, count));
-						}
-						bool isSuccess = a->addwear(type, sizes);
-						if (!isSuccess) {
-							std::cout << "	<<Size of stock is not so big! If you want to add less things firstly remove existed empty one!>>" << std::endl;
-						}
-					}
-					DataBase db(dbname);
-					db.save(a);
 					break;
 
 				}
-				else if (ans == "shoe")
+				else if (ans == "shoe") //аналогично как с wear
 				{
-					std::cout << " Enter name of stock: "; getline(std::cin, name);
-					std::cout << " Enter the city: "; getline(std::cin, city);
-					std::cout << " Enter the max stock size: "; 
-					while (!(std::cin >> qty))
-					{
-						std::cout << "Invalid input ! Only integer allow " << std::endl;
-						std::cin.clear();
-						std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-					}
-					ShoeStock* a = new ShoeStock(name, city, qty);
-					std::cout << " Enter qty of different products: "; 
-					
-					while (!(std::cin >> qtyOfElem))
-					{
-						std::cout << "Invalid input ! Only integer allow " << std::endl;
-						std::cin.clear();
-						std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-					}
-					for (int i = 0; i < qtyOfElem; i++) {
-						std::vector<ShoeStock::StockShoeValue> sizes;
-						std::cin.ignore();
-						std::cout << " Enter the type of product: "; getline(std::cin, type);
-						std::cout << " Enter qty of different sizes: "; 
+					try {
+						std::cout << " Enter name of stock: "; getline(std::cin, name);
+						std::cout << " Enter the city: "; getline(std::cin, city);
+						std::cout << " Enter the max stock size: ";
+						if (!(std::cin >> qty))
+							throw std::exception("\t<<Input error, only integers allow!>>");
 						
-						while (!(std::cin >> qtyOfSizes))
-						{
-							std::cout << "Invalid input ! Only integer allow " << std::endl;
-							std::cin.clear();
-							std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-						}
-						for (int j = 0; j < qtyOfSizes; j++)
-						{
-							std::cout << "	ENTER SIZES FOR " << type << " FOR " << j + 1 << " SIZETYPE!" << std::endl;
-							std::cout << " Enter size: "; 
-							
-							while (!(std::cin >> size))
-							{
-								std::cout << "Invalid input ! Only integer allow " << std::endl;
-								std::cin.clear();
-								std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-							}
-							std::cout << " Enter count: "; 
-							
-							while (!(std::cin >> count))
-							{
-								std::cout << "Invalid input ! Only integer allow " << std::endl;
-								std::cin.clear();
-								std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-							}
-							sizes.push_back(ShoeStock::StockShoeValue(size, count));
-						}
-						bool isSuccess = a->addwear(type, sizes);
-						if (!isSuccess) {
-							std::cout << "	<<Size of stock is not so big! If you want to add less things firstly remove existed empty one!>>" << std::endl;
-						}
+						ShoeStock* a = new ShoeStock(name, city, qty);
+						std::cout << " Enter qty of different products: ";
+						if (!(std::cin >> qtyOfElem))
+							throw std::exception("\t<<Input error, only integers allow!>>");
+						
+						for (int i = 0; i < qtyOfElem; i++) {
+							std::vector<ShoeStock::StockShoeValue> sizes;
+							std::cin.ignore();
+							std::cout << " Enter the type of product: "; getline(std::cin, type);
+							std::cout << " Enter qty of different sizes: ";
+							if (!(std::cin >> qtyOfSizes))
+								throw std::exception("\t<<Input error, only integers allow!>>");
 
+							for (int j = 0; j < qtyOfSizes; j++)
+							{
+								std::cout << "	ENTER SIZES FOR " << type << " FOR " << j + 1 << " SIZETYPE!" << std::endl;
+								std::cout << " Enter size: ";
+								if (!(std::cin >> size))
+									throw std::exception("\t<<Input error, only integers allow!>>");
+								
+								std::cout << " Enter count: ";
+								if (!(std::cin >> count))
+									throw std::exception("\t<<Input error, only integers allow!>>");
+								
+								sizes.push_back(ShoeStock::StockShoeValue(size, count));
+							}
+							bool isSuccess = a->addwear(type, sizes);
+							if (!isSuccess) {
+								std::cout << "\t<<Size of stock is not so big! If you want to add less things firstly remove existed empty one!>>" << std::endl;
+							}
+
+						}
+						DataBase db(dbname);
+						db.save(a);
 					}
-					DataBase db(dbname);
-					db.save(a);
+					catch (std::exception& ex)
+					{
+						std::cout << "Error: " << ex.what() << std::endl;
+						std::cin.clear();
+						while (std::cin.get() != '\n');
+					}
+					
 					break;
 				}
-				else
-					std::cout << "	<<There are no such a answer, choose from fallowing!>>" << std::endl;
+				else // выводим сообщение, если пользователь ошибся командой
+					std::cout << "\t<<There are no such a answer, choose from fallowing!>>" << std::endl;
 			}
-			while (true) {
-				std::cout << "	Want to add more? |y/n|" << std::endl << ">> ";
-				std::cin.ignore();
-				getline(std::cin, answer);
-
+			while (true) { // спрашиваем хочет ли он продолжить?
+				std::cout << "\tWant to add more? |y/n|" << std::endl << ">> ";
+				//std::cin.ignore();
+				//getline(std::cin, answer);
+				std::cin >> answer;
 				if (answer == "n") {
 					contin = false;
+					std::cin.ignore();
 					break;
 				}
 				else if (answer == "y") {
 					contin = true;
+					std::cin.ignore();
 					break;
 				}
 				else
-					std::cout << "	<<Incorrect answer! Type |y| or |n| !>>" << std::endl;
+					std::cout << "\t<<Incorrect answer! Type |y| or |n| !>>" << std::endl;
 			}
 
 		}		
@@ -294,7 +279,7 @@ void editDB(std::string dbname)
 		
 		inFile.open(dbname);
 		if (!inFile) {
-			std::cout << "	<<Unable to open file>>";
+			std::cout << "\t<<Unable to open file>>";
 		}
 		
 		int iter = 1;
@@ -317,45 +302,50 @@ void editDB(std::string dbname)
 		}
 		else 
 		{
-			if (!file_in)
+			if (!file_in) // Проверяем, открылся ли файл
 			{
-				std::cout << "	<<Sorry, the file can't be opened!>>" << std::endl;
+				std::cout << "\t<<Sorry, the file can't be opened!>>" << std::endl;
+			}
+			try {
+				std::cout << "\tEnter string number: " << std::endl << ">> ";
+				int i_number_line_delete = 0;
+				if (!(std::cin >> i_number_line_delete))
+					throw std::exception("\t<<Input error, only integers allow!>>");
+				
+				std::cin.ignore();
+				if (i_number_line_delete < iter) //если наша страка меньше существующих
+				{
+					int i_number_line_now = 0;
+					std::string line;
+					std::string line_file_text;
+					while (getline(file_in, line)) //бегаем по строкам
+					{
+						i_number_line_now++;
+						if (!(i_number_line_now == i_number_line_delete)) //если не нашли то переключаемся по строкам
+						{
+							line_file_text.insert(line_file_text.size(), line);
+							line_file_text.insert(line_file_text.size(), "\r\n");
+						}
+					}
+					file_in.close(); //закрываем
+					std::ofstream file_out;
+					file_out.open(dbname, std::ios::trunc | std::ios::binary); //открываем
+					file_out.write(line_file_text.c_str(), line_file_text.size()); //перезаписываем
+					file_out.clear();
+				}
+				else
+				{
+					std::cout << "\t<<Sorry, this string isn't exists!>>\n";
+					file_in.close();
+				}
+			}
+			catch(std::exception& ex)
+			{
+				std::cout << "Error: " << ex.what() << std::endl;
+				std::cin.clear();
+				while (std::cin.get() != '\n');
 			}
 
-			std::cout << "	Enter string number: " << std::endl << ">> ";
-			int i_number_line_delete = 0;
-			while (!(std::cin >> i_number_line_delete))
-			{
-				std::cout << "Invalid input ! Only integer allow " << std::endl;
-				std::cin.clear();
-				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-			}
-			std::cin.ignore();
-			if (i_number_line_delete < iter)
-			{
-				int i_number_line_now = 0;
-				std::string line;
-				std::string line_file_text;
-				while (getline(file_in, line))
-				{
-					i_number_line_now++;
-					if (!(i_number_line_now == i_number_line_delete))
-					{
-						line_file_text.insert(line_file_text.size(), line);
-						line_file_text.insert(line_file_text.size(), "\r\n");
-					}
-				}
-				file_in.close();
-				std::ofstream file_out;
-				file_out.open(dbname, std::ios::trunc | std::ios::binary);
-				file_out.write(line_file_text.c_str(), line_file_text.size());
-				file_out.clear();
-			}
-			else
-			{
-				std::cout << "\t<<Sorry, this string isn't exists!>>\n";
-				file_in.close();
-			}
 		}
 	}
 	else if (fans == "exit")
@@ -367,307 +357,319 @@ void editDB(std::string dbname)
 
 }
 
-void view(std::string dbname)
+void view(std::string dbname) //смотрим содержание
 {
-	DataBase db(dbname);
-	auto v = db.getData();
+	DataBase db(dbname); //инициализируем бд
+	auto v = db.getData(); //в вектор получаем содержимое бд
 	for (auto pointer : v) {
-		WearStock *wear = dynamic_cast<WearStock *>(pointer);
-		if (wear) {
-			std::cout << *wear << std::endl;
+		WearStock *wear = dynamic_cast<WearStock *>(pointer);//пытаемся привести к одному типу
+		if (wear) {// смогли?
+			std::cout << *wear << std::endl; //выводим
 		}
-		else {
-			ShoeStock *wear = dynamic_cast<ShoeStock *>(pointer);
-			std::cout << *wear << std::endl;
+		else {//нет?
+			ShoeStock *wear = dynamic_cast<ShoeStock *>(pointer); //приводим к другому
+			std::cout << *wear << std::endl; //выводим
 		}
 	}
 }
 
-void searchForName(std::string dbname)
+void searchForName(std::string dbname) //поиск в бд по Названию
 {
 	std::string answer;
-	std::cout << "		YOU SEARCH IN " << dbname << std::endl;
+	std::cout << "\t\tYOU SEARCH IN " << dbname << std::endl;
 	DataBase db(dbname);
 
-	std::cout << "	Enter the name of stock you want to find: " << std::endl << ">> ";
+	std::cout << "\tEnter the name of stock you want to find: " << std::endl << ">> ";
 	getline(std::cin, answer);
-	std::vector<Stock*> res = db.search(answer);
+	std::vector<Stock*> res = db.search(answer); //ищем
 	for (auto i = 0; i < res.size(); i++)
 	{
 		if (res[i] != nullptr)
-			std::cout << res[i]->toString() << std::endl;
+			std::cout << res[i]->toString() << std::endl; // выводим найденные
 		else
-			std::cout << "	<<Not found!>>" << std::endl;
+			std::cout << "\t<<Not found!>>" << std::endl;
 	}
 }
 
-void countElem(std::string dbname)
+void countElem(std::string dbname) //подсчет элементов
 {
 	DataBase db(dbname);
 	size_t res = db.countElements(); 
-	std::cout << "	There are " << res << " elements in DB" << std::endl;
+	std::cout << "\tThere are " << res << " elements in DB" << std::endl;
 	auto v = db.getData();
 	
 	size_t amountWear = 0;
 	size_t amountShoe = 0;
 
-	for (auto pointer : v) {
-		WearStock *wear = dynamic_cast<WearStock *>(pointer);
-		if (wear) {
-			amountWear += pointer->amount();
-		} else {
-			amountShoe += pointer->amount();
+	for (auto pointer : v) { //ищем по вектору
+		WearStock *wear = dynamic_cast<WearStock *>(pointer); //пытаемся преобразовать к типу
+		if (wear) { //преобразовали?
+			amountWear += pointer->amount(); //добавляем в счет
+		} else { //нет?
+			amountShoe += pointer->amount(); //значит в другой 
 		}
 	}
 
-	std::cout << "	Qty of products in WearStock: " << amountWear << std::endl;
-	std::cout << "	Qty of products in ShoeStock: " << amountShoe << std::endl;
+	std::cout << "\tQty of products in WearStock: " << amountWear << std::endl;
+	std::cout << "\tQty of products in ShoeStock: " << amountShoe << std::endl;
 }
 
-void sortDB(std::string dbname)
+void sortDB(std::string dbname) //сортируем
 {
-	int answer = 0;
-	std::cout << "	You want to sort by alphabet(1) or Qty on Stock(2)?" << std::endl << ">> "; 
-	while (!(std::cin >> answer))
+	try {
+		int answer = 0;
+		std::cout << "\tYou want to sort by alphabet(1) or Qty on Stock(2)?" << std::endl << ">> ";
+		if (!(std::cin >> answer))
+			throw std::exception("\t<<Input error, only integers allow!>>");
+	
+
+		std::cin.ignore();
+		if (answer == 1) {
+			DataBase db(dbname);
+			std::ifstream inFile;
+			inFile.open(dbname);
+
+			if (!inFile.fail())
+			{
+				std::vector<Stock*> v = db.getData();
+				std::sort(v.begin(), v.end(), [](Stock *left, Stock *right) -> bool {
+					return left->getName() < right->getName();
+				});
+
+				std::fstream oFile(dbname, std::ios::out);
+				oFile.close();
+
+				for (const auto &it : v) {
+					db.save(it);
+				}
+			}
+			else {
+				std::cout << "\t<<Error Opening File!>>" << std::endl;
+			}
+		}
+		else if (answer == 2) {
+			DataBase db(dbname);
+			std::ifstream inFile;
+			inFile.open(dbname);
+			if (!inFile.fail())
+			{
+				std::vector<Stock*> v = db.getData();
+				std::sort(v.begin(), v.end(), [](Stock *left, Stock *right) -> bool {
+					return left->sizeQty() > right->sizeQty();
+				});
+
+				std::fstream oFile(dbname, std::ios::out);
+				oFile.close();
+
+				for (const auto &it : v) {
+					db.save(it);
+				}
+			}
+			else {
+				std::cout << "\t<<Error Opening File!>>" << std::endl;
+			}
+		}
+		else {
+			std::cout << "\t<<You made a wrong choice!>>" << std::endl;
+		}
+	}
+	catch (std::exception& ex)
 	{
-		std::cout << "Invalid input ! Only integer allow " << std::endl;
+		std::cout << "Error: " << ex.what() << std::endl;
 		std::cin.clear();
-		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-	}
-	std::cin.ignore();
-	if (answer == 1){
-		DataBase db(dbname);
-		std::ifstream inFile;
-		inFile.open(dbname);
-
-		if (!inFile.fail())
-		{
-			std::vector<Stock*> v = db.getData();
-			std::sort(v.begin(), v.end(), [](Stock *left, Stock *right) -> bool {
-				return left->getName() < right->getName();
-			});
-
-			std::fstream oFile(dbname, std::ios::out);
-			oFile.close();
-
-			for (const auto &it : v) {
-				db.save(it);
-			}
-		}
-		else {
-			std::cout << "	<<Error Opening File!>>" << std::endl;
-		}
-	}
-	else if (answer == 2) {
-		DataBase db(dbname);
-		std::ifstream inFile;
-		inFile.open(dbname);
-		if (!inFile.fail())
-		{
-			std::vector<Stock*> v = db.getData();
-			std::sort(v.begin(), v.end(), [](Stock *left, Stock *right) -> bool {
-				return left->sizeQty() > right->sizeQty();
-			});
-
-			std::fstream oFile(dbname, std::ios::out);
-			oFile.close();
-
-			for (const auto &it : v) {
-				db.save(it);
-			}
-		}
-		else {
-			std::cout << "	<<Error Opening File!>>" << std::endl;
-		}
-	}
-	else {
-		std::cout << "	<<You made a wrong choice!>>" << std::endl;
+		while (std::cin.get() != '\n');
 	}
 }
 
 void pickDB(std::string dbname)
 {
-	std::cout << "	You want to pick from city(1) or size(2)?" << std::endl << ">> ";
-	int ans = 0;
-	while (!(std::cin >> ans))
-	{
-		std::cout << "Invalid input ! Only integer allow " << std::endl;
-		std::cin.clear();
-		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-	}
-	if (ans == 1)
-	{
-		std::string city;
-		std::string newfile;
-		std::cout << " Enter city" << std::endl << ">> "; std::cin.ignore(); getline(std::cin, city);
-		DataBase db(dbname);
-		std::ifstream inFile;
-		inFile.open(dbname);
-		if (!inFile.fail())
-		{
-			std::vector<Stock*> temp;
-			std::vector<Stock*> v = db.getData();
-			for (auto &it : v)
-			{
-				if(it->getCity() == city)
-				{
-					temp.push_back(it);
-				}
-			}
-			std::cout << " Enter file name with .txt" << std::endl << ">> "; 
-			while (!(newfile.find(".txt") != std::string::npos)) {
+	try {
+		std::cout << "\tYou want to pick from city(1) or size(2)?" << std::endl << ">> ";
+		int ans = 0;
+		if (!(std::cin >> ans))
+			throw std::exception("\t<<Input error, only integers allow!>>");
 
-				getline(std::cin, newfile);
-				if (!(newfile.find(".txt") != std::string::npos))
-					std::cout << "\t<<Please enter DB name with .txt!>>\n";
-			}
-			DataBase ndb(newfile);
-
-			for (const auto &it : temp) {
-				ndb.save(it);
-			}
-		}
-		else {
-			std::cout << "	<<Error Opening File!>>" << std::endl;
-		}
-	}
-	else if (ans == 2)
-	{
-		std::string newfile;
-		std::string answer;
-		std::cout << "	You want to pick \"low\" or \"high\" sizes?" << std::endl << ">> "; std::cin.ignore(); getline(std::cin, answer);
-		if (answer == "low")
+		if (ans == 1)
 		{
+			std::string city;
+			std::string newfile;
+			std::cout << " Enter city" << std::endl << ">> "; std::cin.ignore(); getline(std::cin, city);
 			DataBase db(dbname);
 			std::ifstream inFile;
 			inFile.open(dbname);
-			if (!inFile.fail()) {
+			if (!inFile.fail())
+			{
 				std::vector<Stock*> temp;
 				std::vector<Stock*> v = db.getData();
-
-				for (auto &it : v) {
-					WearStock *wear = dynamic_cast<WearStock *>(it);
-					if (wear) {
-						size_t amount = std::count_if(wear->getProducts().begin(), wear->getProducts().end(), 
-							[](std::pair<std::string, std::vector<WearStock::StockWearValue>> pair)	{
-								return std::find_if(pair.second.begin(), pair.second.end(),
-									[](WearStock::StockWearValue value)	{
-										return value.getSizeSize() < 40;
-									}
-								) != pair.second.end();
-							}
-						);
-						if (amount > 0) {
-							temp.push_back(it);
-						}
-					} else {
-						ShoeStock *shoe = dynamic_cast<ShoeStock *>(it);
-						size_t amount = std::count_if(shoe->getProducts().begin(), shoe->getProducts().end(),
-							[](std::pair<std::string, std::vector<ShoeStock::StockShoeValue>> pair)	{
-								return std::find_if(pair.second.begin(), pair.second.end(),
-									[](ShoeStock::StockShoeValue value)	{
-										return value.getSizeSize() < 36;
-									}
-								) != pair.second.end();
-							}
-						);
-						if (amount > 0) {
-							temp.push_back(it);
-						}
+				for (auto &it : v)
+				{
+					if (it->getCity() == city)
+					{
+						temp.push_back(it);
 					}
 				}
-				std::cout << " Enter file name with .txt\n>> ";
+				std::cout << " Enter file name with .txt" << std::endl << ">> ";
 				while (!(newfile.find(".txt") != std::string::npos)) {
 
 					getline(std::cin, newfile);
 					if (!(newfile.find(".txt") != std::string::npos))
 						std::cout << "\t<<Please enter DB name with .txt!>>\n";
 				}
-				DataBase ndbb(newfile);
+				DataBase ndb(newfile);
 
-				if (temp.empty()) {
-					std::cout << "	<<No such Stock!>>" << std::endl;
-				}
-				else {
-					for (const auto &it : temp) {
-						ndbb.save(it);
-					}
+				for (const auto &it : temp) {
+					ndb.save(it);
 				}
 			}
 			else {
 				std::cout << "	<<Error Opening File!>>" << std::endl;
 			}
 		}
-		else if (answer == "high")
+		else if (ans == 2)
 		{
-			DataBase db(dbname);
-			std::ifstream inFile;
-			inFile.open(dbname);
-			if (!inFile.fail()) {
-				std::vector<Stock*> temp;
-				std::vector<Stock*> v = db.getData();
+			std::string newfile;
+			std::string answer;
+			std::cout << "\tYou want to pick \"low\" or \"high\" sizes?" << std::endl << ">> "; std::cin.ignore(); getline(std::cin, answer);
+			if (answer == "low")
+			{
+				DataBase db(dbname);
+				std::ifstream inFile;
+				inFile.open(dbname);
+				if (!inFile.fail()) {
+					std::vector<Stock*> temp;
+					std::vector<Stock*> v = db.getData();
 
-				for (auto &it : v) {
-					WearStock *wear = dynamic_cast<WearStock *>(it);
-					if (wear) {
-						size_t amount = std::count_if(wear->getProducts().begin(), wear->getProducts().end(),
-							[](std::pair<std::string, std::vector<WearStock::StockWearValue>> pair) {
-							return std::find_if(pair.second.begin(), pair.second.end(),
-								[](WearStock::StockWearValue value)	{
-										return value.getSizeSize() > 50;
-									}
+					for (auto &it : v) {
+						WearStock *wear = dynamic_cast<WearStock *>(it);
+						if (wear) {
+							size_t amount = std::count_if(wear->getProducts().begin(), wear->getProducts().end(),
+								[](std::pair<std::string, std::vector<WearStock::StockWearValue>> pair) {
+								return std::find_if(pair.second.begin(), pair.second.end(),
+									[](WearStock::StockWearValue value) {
+									return value.getSizeSize() < 40;
+								}
 								) != pair.second.end();
 							}
-						);
-						if (amount > 0) {
-							temp.push_back(it);
+							);
+							if (amount > 0) {
+								temp.push_back(it);
+							}
 						}
+						else {
+							ShoeStock *shoe = dynamic_cast<ShoeStock *>(it);
+							size_t amount = std::count_if(shoe->getProducts().begin(), shoe->getProducts().end(),
+								[](std::pair<std::string, std::vector<ShoeStock::StockShoeValue>> pair) {
+								return std::find_if(pair.second.begin(), pair.second.end(),
+									[](ShoeStock::StockShoeValue value) {
+									return value.getSizeSize() < 36;
+								}
+								) != pair.second.end();
+							}
+							);
+							if (amount > 0) {
+								temp.push_back(it);
+							}
+						}
+					}
+					std::cout << "\tEnter file name with .txt\n>> ";
+					while (!(newfile.find(".txt") != std::string::npos)) {
+
+						getline(std::cin, newfile);
+						if (!(newfile.find(".txt") != std::string::npos))
+							std::cout << "\t<<Please enter DB name with .txt!>>\n";
+					}
+					DataBase ndbb(newfile);
+
+					if (temp.empty()) {
+						std::cout << "	<<No such Stock!>>" << std::endl;
 					}
 					else {
-						ShoeStock *shoe = dynamic_cast<ShoeStock *>(it);
-						size_t amount = std::count_if(shoe->getProducts().begin(), shoe->getProducts().end(),
-							[](std::pair<std::string, std::vector<ShoeStock::StockShoeValue>> pair)	{
-								return std::find_if(pair.second.begin(), pair.second.end(),
-									[](ShoeStock::StockShoeValue value)
-									{
-										return value.getSizeSize() > 45;
-									}
-								) != pair.second.end();
-							}
-						);
-						if (amount > 0) {
-							temp.push_back(it);
+						for (const auto &it : temp) {
+							ndbb.save(it);
 						}
 					}
 				}
-				std::cout << " Enter file name with .txt\n>> ";
-				
-				while (!(newfile.find(".txt") != std::string::npos)) {
-					
-					getline(std::cin, newfile);
-					if (!(newfile.find(".txt") != std::string::npos))
-						std::cout << "\t<<Please enter DB name with .txt!>>\n";
-				}
-				DataBase ndbb(newfile);
-
-				if (temp.empty()) {
-					std::cout << "	<<No such Stock!>>" << std::endl;
-				}
 				else {
-					for (const auto &it : temp) {
-						ndbb.save(it);
+					std::cout << "\t<<Error Opening File!>>" << std::endl;
+				}
+			}
+			else if (answer == "high")
+			{
+				DataBase db(dbname);
+				std::ifstream inFile;
+				inFile.open(dbname);
+				if (!inFile.fail()) {
+					std::vector<Stock*> temp;
+					std::vector<Stock*> v = db.getData();
+
+					for (auto &it : v) {
+						WearStock *wear = dynamic_cast<WearStock *>(it);
+						if (wear) {
+							size_t amount = std::count_if(wear->getProducts().begin(), wear->getProducts().end(),
+								[](std::pair<std::string, std::vector<WearStock::StockWearValue>> pair) {
+								return std::find_if(pair.second.begin(), pair.second.end(),
+									[](WearStock::StockWearValue value) {
+									return value.getSizeSize() > 50;
+								}
+								) != pair.second.end();
+							}
+							);
+							if (amount > 0) {
+								temp.push_back(it);
+							}
+						}
+						else {
+							ShoeStock *shoe = dynamic_cast<ShoeStock *>(it);
+							size_t amount = std::count_if(shoe->getProducts().begin(), shoe->getProducts().end(),
+								[](std::pair<std::string, std::vector<ShoeStock::StockShoeValue>> pair) {
+								return std::find_if(pair.second.begin(), pair.second.end(),
+									[](ShoeStock::StockShoeValue value)
+								{
+									return value.getSizeSize() > 45;
+								}
+								) != pair.second.end();
+							}
+							);
+							if (amount > 0) {
+								temp.push_back(it);
+							}
+						}
+					}
+					std::cout << "\tEnter file name with .txt\n>> ";
+
+					while (!(newfile.find(".txt") != std::string::npos)) {
+
+						getline(std::cin, newfile);
+						if (!(newfile.find(".txt") != std::string::npos))
+							std::cout << "\t<<Please enter DB name with .txt!>>\n";
+					}
+					DataBase ndbb(newfile);
+
+					if (temp.empty()) {
+						std::cout << "\t<<No such Stock!>>" << std::endl;
+					}
+					else {
+						for (const auto &it : temp) {
+							ndbb.save(it);
+						}
 					}
 				}
+				else {
+					std::cout << "\t<<Error Opening File!>>" << std::endl;
+				}
 			}
-			else {
-				std::cout << "	<<Error Opening File!>>" << std::endl;
-			}
+			else
+				std::cout << "\t<<Sorry, wrong choice!>>" << std::endl;
 		}
 		else
-			std::cout << "	<<Sorry, wrong choice!>>" << std::endl;
+			std::cout << "\t<<There is no such choice!>>" << std::endl;
 	}
-	else
-		std::cout << "	<<There is no such choice!>>" << std::endl;
+	catch (std::exception& ex)
+	{
+		std::cout << "Error: " << ex.what() << std::endl;
+		std::cin.clear();
+		while (std::cin.get() != '\n');
+	}
 }
 
 void how()
@@ -692,7 +694,7 @@ bool isInDir(std::string fileName)
 void starter()
 {
 	std::string answer;
-	std::cout << "		Hello User! I am a DB redactor! Type \"help\" to see list of comands!" << std::endl;
+	std::cout << "\t\tHello User! I am a DB redactor! Type \"help\" to see list of comands!" << std::endl;
 	while (true)
 	{
 		std::cout << std::endl << ">> ";
